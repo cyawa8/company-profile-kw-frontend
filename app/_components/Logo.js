@@ -3,11 +3,8 @@ import Link from "next/link";
 
 function Logo() {
   return (
-    <Link href="/" className="flex items-center gap-4 z-10">
-      <Image src="/logo.png" height="60" width="60" alt="Kinerja Wira Inovasi logo" />
-      <span className="text-xl font-semibold text-primary-100">
-        Kinerja Wira Inovasi
-      </span>
+    <Link href="/" className="flex justify-center items-center gap-4 z-10">
+      <Image src="/logo.png" height="200" width="200" alt="Kinerja Wira Inovasi logo" />
     </Link>
   );
 }

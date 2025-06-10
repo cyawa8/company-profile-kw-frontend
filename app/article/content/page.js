@@ -1,21 +1,17 @@
 "use client"
 
 import { useMemo, useState } from "react";
-import Tabel from "../_components/Table";
+import {useHomeContent} from "@/pages/hooks/useHomeContent";
 import {useQueryClient, useMutation} from "@tanstack/react-query";
-import Loading from "../loading";
-import H1 from "../_components/H1";
-import Button from "../_components/Button";
-import Form from "../_components/Form";
+import Loading from "@/app/_components/Spinner";
+import H1 from "@/app/_components/H1";
+import Button from "@/app/_components/Button";
+import Form from "@/app/_components/Form";
 import { Modal } from "antd";
 import toast from "react-hot-toast";
 import { createHomeContent } from "@/pages/_lib/api";
 import Image from "next/image";
-import { useAboutContent } from "@/pages/hooks/useAboutContent";
-
-const metadata = {
-  title: "About",
-};
+import Tabel from "@/app/_components/Table";
 
 const fields=[
     {
@@ -51,7 +47,7 @@ return fields.reduce((acc, field) => {
 }
 
 export default function Page() {
-    const {data, isLoading, error} = useAboutContent();
+    const {data, isLoading, error} = useHomeContent();
     const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState(()=>
     generateInitialFormData(fields)
@@ -88,6 +84,7 @@ export default function Page() {
         const form = new FormData();
         form.append("title", formData.title);
         form.append("subtitle", formData.subtitle);
+        form.append("content", formData.content);
         form.append("image", formData.image[0].originFileObj); // Ambil file aslinya
         addContent(form);
     };
@@ -138,7 +135,7 @@ export default function Page() {
         <Image 
             className="object-cover"
             src={`http://localhost:8000/storage/${text}`} 
-            alt="content about" 
+            alt="banner" 
             width={40}    // w-10 = 2.5rem = 40px
             height={40}   // biar kotak persegi
         />
@@ -151,7 +148,7 @@ export default function Page() {
 
     return (
         <>
-            <H1>About Page Management</H1>
+            <H1>Article Detail Management</H1>
             <Button variation="primary" 
                 onClick={handleOpenForm}
                 >

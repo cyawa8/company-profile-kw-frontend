@@ -1,17 +1,16 @@
 "use client"
 
 import { useMemo, useState } from "react";
-import Tabel from "../_components/Table";
-import {useHomeContent} from "@/pages/hooks/useHomeContent";
+import Tabel from "../../_components/Table";
+import {useArticleCategory} from "@/pages/hooks/useArticleCategory";
 import {useQueryClient, useMutation} from "@tanstack/react-query";
-import Loading from "../loading";
-import H1 from "../_components/H1";
-import Button from "../_components/Button";
-import Form from "../_components/Form";
+import Loading from "../../loading";
+import H1 from "../../_components/H1";
+import Button from "../../_components/Button";
+import Form from "../../_components/Form";
 import { Modal } from "antd";
 import toast from "react-hot-toast";
-import { createHomeContent } from "@/pages/_lib/api";
-import Image from "next/image";
+import { createArticleCategory } from "@/pages/_lib/api";
 
 const fields=[
     {
@@ -19,31 +18,17 @@ const fields=[
         label: "title",
         required:true,
     },
-    {
-        name:"subtitle",
-        label:"SubTitle",
-    },
-    {
-        name:"image",
-        label:"image",
-        type:"file",
-        required:true,
-        max:1,
-    }
 ];
 
 function generateInitialFormData(fields, initialValues = {}) {
 return fields.reduce((acc, field) => {
-    acc[field.name] =
-    field.type === "file"
-        ? initialValues[field.name] || []
-        : initialValues[field.name] || "";
+    acc[field.name] = initialValues[field.name] || "";
     return acc;
 }, {});
 }
 
 export default function Page() {
-    const {data, isLoading, error} = useHomeContent();
+    const {data, isLoading, error} = useArticleCategory();
     const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState(()=>
     generateInitialFormData(fields)
@@ -52,10 +37,10 @@ export default function Page() {
     const queryClient = useQueryClient();
 
     const {mutate : addContent, isLoading : isSaving} = useMutation({
-        mutationFn : createHomeContent,
+        mutationFn : createArticleCategory,
         onSuccess: ()=>{
             toast.success("Success add and save data");
-            queryClient.invalidateQueries({queryKey:['homeContent']});
+            queryClient.invalidateQueries({queryKey:['articleCategory']});
             setFormData(generateInitialFormData(fields));
             setShowModal(false);
         }, 
@@ -79,8 +64,6 @@ export default function Page() {
 
         const form = new FormData();
         form.append("title", formData.title);
-        form.append("subtitle", formData.subtitle);
-        form.append("image", formData.image[0].originFileObj); // Ambil file aslinya
         addContent(form);
     };
 
@@ -107,28 +90,9 @@ export default function Page() {
         onFilter : (value, record)=>record.title.includes(value),
     },
     {
-        title : 'subtitle',
-        dataIndex : 'subtitle',
-        filters : nameFilter,
-        onFilter : (value, record)=>record.title.includes(value),
-    },
-    {
         title : 'created_at',
         dataIndex : 'created_at',
         sorter : (a, b) => a.created_at - b.created_at,  
-    },
-    {
-        title : 'image',
-        dataIndex : 'image',
-        render: (text) => (
-        <Image 
-            className="object-cover"
-            src={`http://localhost:8000/storage/${text}`} 
-            alt="banner" 
-            width={40}    // w-10 = 2.5rem = 40px
-            height={40}   // biar kotak persegi
-        />
-        ),
     },
     {
         title : 'Action',
@@ -137,7 +101,7 @@ export default function Page() {
 
     return (
         <>
-            <H1>Homepage Management</H1>
+            <H1>Article Management</H1>
             <Button variation="primary" 
                 onClick={handleOpenForm}
                 >

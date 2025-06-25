@@ -2,6 +2,114 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* Teks dan border pagination */
+:where(.ant-pagination) .ant-pagination-item a,
+:where(.ant-pagination) .ant-pagination-prev,
+:where(.ant-pagination) .ant-pagination-next {
+  border-color: #9CB916 !important;
+  color: #000000 !important;
+}
+
+/* Aktif page */
+:where(.ant-pagination) .ant-pagination-item-active {
+  background-color: #ffffff !important;
+  border-color: #9CB916 !important;
+  color: #9CB916 !important;
+}
+
+/* Hover efek */
+:where(.ant-pagination) .ant-pagination-item:hover,
+:where(.ant-pagination) .ant-pagination-prev:hover,
+:where(.ant-pagination) .ant-pagination-next:hover {
+  color: #9CB916 !important;
+  border-color: #9CB916 !important;
+}
+
+/* Jumlah item per page selector */
+:where(.ant-pagination) .ant-select-selector {
+  border-color: #9CB916 !important;
+  color: #000000 !important;
+}
+
+:where(.ant-pagination) .ant-select-arrow {
+  color: #9CB916 !important;
+}
+
+/* ✅ Tombol OK (filter) */
+:where(.ant-table-filter-dropdown-btns) .ant-btn-primary {
+  background-color: #9CB916 !important;
+  border-color: #9CB916 !important;
+  color: white !important;
+}
+
+/* ✅ Tombol Reset (bukan .ant-btn-primary) */
+:where(.ant-table-filter-dropdown-btns) .ant-btn:not(.ant-btn-primary) {
+  color: #9CB916 !important;
+  border-color: #9CB916 !important;
+  background-color: transparent !important;
+}
+
+
+:where(.ant-table-filter-dropdown-btns) .ant-btn-primary:hover {
+  background-color: #AEC640 !important;
+  border-color: #AEC640 !important;
+}
+
+:where(.ant-checkbox-checked) .ant-checkbox-inner {
+  background-color: #9CB916 !important;
+  border-color: #9CB916 !important;
+}
+
+:where(.ant-checkbox-wrapper):hover .ant-checkbox-inner {
+  border-color: #AEC640 !important;
+}
+
+/* Warna text radio */
+:where(.ant-radio-wrapper) {
+  color: #9CB916 !important;
+}
+
+/* Warna bullet radio yang dipilih */
+:where(.ant-radio-checked) .ant-radio-inner {
+  border-color: #9CB916 !important;
+  background-color: #9CB916 !important;
+}
+
+/* Hover radio */
+:where(.ant-radio-wrapper):hover .ant-radio-inner {
+  border-color: #AEC640 !important;
+}
+
+
+
+:where(.ant-table-filter-dropdown-btns) .ant-btn:hover {
+  color: #AEC640 !important;
+  border-color: #AEC640 !important;
+}
+
+/* Warna ikon filter saat aktif */
+:where(.ant-table) .ant-table-filter-column .anticon svg {
+  fill: #9CB916 !important;
+}
+
+/* Warna ikon filter di dropdown */
+:where(.ant-dropdown) .ant-dropdown-menu-item .anticon {
+  color: #9CB916 !important;
+}
+
+/* Warna ikon sort ASC & DESC saat aktif */
+:where(.ant-table) .ant-table-column-sorter-up.active,
+:where(.ant-table) .ant-table-column-sorter-down.active {
+  color: #9CB916 !important;
+}
+
+/* Default sort icon (bisa untuk semua state) */
+:where(.ant-table) .ant-table-column-sorter .anticon {
+  color: #9CB916 !important;
+}
+
+
 /* @layer components {
   .spinner {
     margin: 3.2rem auto 1.6rem;

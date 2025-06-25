@@ -1,4 +1,5 @@
-"use client";
+"use client"
+
 import { useHomeContent } from "./pages/hooks/useHomeContent";
 import Loading from "./loading";
 import H1 from "./_components/H1";
@@ -95,6 +96,3 @@ export default function Page() {
     </>
   );
 }
-
-
-

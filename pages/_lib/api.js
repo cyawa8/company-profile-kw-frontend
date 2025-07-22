@@ -1,4 +1,4 @@
-const BASE_URL = 'http://127.0.0.1:8000/api';
+const BASE_URL = 'http://localhost:8001/api';
 
 export async function getHomeContent() {
   const res = await fetch(`${BASE_URL}/home-content`);
@@ -48,6 +48,18 @@ export async function getAboutContent() {
 
 export async function getArticleCategory() {
   const res = await fetch(`${BASE_URL}/article-category`);
+  if (!res.ok) throw new Error('Error fetching data');
+  return res.json();
+}
+
+export async function getAboutAchievement() {
+  const res = await fetch(`${BASE_URL}/about-award`);
+  if (!res.ok) throw new Error('Error fetching data');
+  return res.json();
+}
+
+export async function getContact() {
+  const res = await fetch(`${BASE_URL}/contacts`);
   if (!res.ok) throw new Error('Error fetching data');
   return res.json();
 }

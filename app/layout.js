@@ -4,6 +4,9 @@ import "./globals.css";
 import "@/app/_styles/globals.css";
 import {Quicksand} from "next/font/google";
 import { ReactQueryProviders } from "./provider";
+import { ModalProvider } from "./_components/Modal";
+import { Toaster } from "react-hot-toast";
+import Footer from "./_components/Footer";
 
 const quicksand = Quicksand({
   subsets : ["latin"],
@@ -22,24 +25,20 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${quicksand.className} antialiased bg-primary-0 text-accent-950 min-h-screen`}>
-        {/* <Header />
-        <div className="flex-1 px-8 py-5">
-        <main className="max-w-7xl mx-auto">  
-          {children}
-        </main>
-        </div> */}
-
-           {/* Bungkus Header + children dengan ReactQueryProviders */}
-       <ReactQueryProviders>
-          <Header />
-          <div className="flex-1">
-            <main className="max-w-7xl mx-auto">
+      <body className={`${quicksand.className} antialiased bg-primary-0 text-accent-950 min-h-screen flex flex-col`}>
+        <ReactQueryProviders>
+          <ModalProvider>
+            <Header />
+            <Toaster position="top-center" />
+            <main className="flex-1 text-lg font-semibold">
               {children}
             </main>
-          </div>
+            <Footer />
+          </ModalProvider>
         </ReactQueryProviders>
       </body>
     </html>
   );
 }
+
+

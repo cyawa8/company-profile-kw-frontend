@@ -1,5 +1,9 @@
-export default function H1({children}){
-    return (
-        <h1 className="font-semibold text-[40px] mb-3 text-primary-950">{children}</h1>
-    );
+export default function H1({ children, className = "" }) {
+  return (
+    <h1
+      className={`font-bold text-2xl sm:text-3xl md:text-[40px] leading-snug mb-6 md:mb-8 text-primary-950 ${className}`}
+    >
+      {children}
+    </h1>
+  );
 }

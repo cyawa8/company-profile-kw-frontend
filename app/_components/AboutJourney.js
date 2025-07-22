@@ -12,63 +12,73 @@ export default function AboutJourney() {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="relative px-4">
-      {/* wrapper untuk semua event + dot (tanpa label) */}
-      <div className="relative space-y-16">
-        {/* Garis timeline — berhenti 0.75rem di atas dot terakhir */}
-        <div
-          className="absolute left-1/2 top-0 bottom-3 w-1 bg-gray-300
-                     transform -translate-x-1/2"
-        />
+    <div className="relative px-2 sm:px-4">
+      <div className="relative">
 
-        {data.map((item) => (
-          <div
-            key={item.id}
-            className="relative flex flex-col lg:flex-row items-center"
-          >
-            {/* titik setiap event */}
+        <div className="hidden sm:block relative space-y-16">
+          <div className="absolute left-1/2 top-0 bottom-3 w-1 bg-gray-300 transform -translate-x-1/2" />
+          {data.map((item) => (
             <div
-              className="absolute left-1/2 transform -translate-x-1/2
-                         bg-white border-4 border-primary-500
-                         rounded-full w-6 h-6 z-10"
-            />
-
-            {/* Kiri: teks */}
-            <div className="w-full lg:w-1/2 pr-8 text-right lg:text-left">
-              <H1 className="text-4xl font-bold text-primary-950">
-                {item.title}
-              </H1>
-              <p className="mt-2 text-lg text-secondary-950 font-bold">
-                {item.subtitle}
-              </p>
-            <p>
-                {item.content}
-            </p>
-            </div>
-
-            {/* Kanan: gambar */}
-            <div className="w-full lg:w-1/2 pl-8 mt-6 lg:mt-0">
-              <div className="relative w-full h-64 rounded-lg overflow-hidden">
-                <Image
-                  src={`http://localhost:8000/storage/${item.image}`}
-                  alt={item.title}
-                  fill
-                  className="object-cover"
-                />
+              key={item.id}
+              className="relative flex flex-col lg:flex-row items-center"
+            >
+              <div className="absolute left-1/2 transform -translate-x-1/2 bg-white border-4 border-primary-500 rounded-full w-6 h-6 z-10" />
+              <div className="w-full lg:w-1/2 pr-8 text-right lg:text-left">
+                <H1>{item.title}</H1>
+                <p className="mt-2 text-xl text-secondary-950 font-bold">{item.subtitle}</p>
+                <p>{item.content}</p>
+              </div>
+              <div className="w-full lg:w-1/2 pl-8 mt-6 lg:mt-0">
+                <div className="relative w-full h-64 rounded-lg overflow-hidden">
+                  <Image
+                    src={`http://localhost:8001/storage/${item.image}`}
+                    alt={item.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               </div>
             </div>
+          ))}
+          <div className="relative flex justify-center">
+            <div className="absolute left-1/2 transform -translate-x-1/2 bg-white border-4 border-primary-500 rounded-full w-6 h-6 z-10 -mt-3" />
           </div>
-        ))}
-        <div className="relative flex justify-center">
-          <div
-            className="absolute left-1/2 transform -translate-x-1/2
-                       bg-white border-4 border-primary-500
-                       rounded-full w-6 h-6 z-10 -mt-3"
-          />
         </div>
+
+        <div className="block sm:hidden relative">
+          <div className="absolute left-4 top-0 bottom-3 w-[2px] bg-gray-300 z-0" />
+          <div className="flex flex-col gap-16">
+            {data.map((item) => (
+              <div key={item.id} className="relative flex min-h-[120px]">
+                <div className="absolute left-[7px] top-6 flex items-center z-10">
+                  <div className="w-5 h-5 rounded-full border-4 border-white bg-primary-400 shadow" />
+                </div>
+                <div className="flex-1 pl-12">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-4xl font-bold text-red-600 leading-tight break-words">{item.title}</span>
+                    <span className="font-bold text-xl mt-0.5 break-words">{item.subtitle}</span>
+                    <span className="text-base text-gray-800 mb-4 break-words">{item.content}</span>
+                  </div>
+                  <div className="w-full h-44 mt-2 rounded-tr-2xl rounded-tl-none rounded-b-2xl overflow-hidden relative">
+                    <Image
+                      src={`http://localhost:8001/storage/${item.image}`}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="relative flex justify-start mt-2">
+            <div className="absolute left-[7px] bg-white border-4 border-primary-500 rounded-full w-5 h-5 z-10 -mt-3" />
+          </div>
+        </div>
+        
       </div>
-      <div className="flex justify-center mt-8">
-        <H1 className="text-2xl font-bold text-primary-950">Today</H1>
+      <div className="flex justify-start sm:justify-center mt-8">
+        <H1>Today</H1>
       </div>
     </div>
   );

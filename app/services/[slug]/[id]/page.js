@@ -1,0 +1,38 @@
+"use client";
+
+import { useParams } from "next/navigation";
+import Spinner from "@/app/_components/Spinner";
+import { useEffect, useState } from "react";
+import AssetDetail from "@/app/_components/AssetDetail";
+import Breadcrumbs from "@/app/_components/Breadcrumbs";
+import Container from "@/app/_components/Container";
+import AssetRequestForm from "@/app/_components/AssetRequest";
+
+export default function AssetDetailPage() {
+  const { slug, id } = useParams();
+  const [asset, setAsset] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (slug === "asset-management") {
+      fetch(`http://localhost:8001/api/${slug}/${id}`)
+        .then(res => res.json())
+        .then(data => {
+          setAsset(data);
+          setLoading(false);
+        });
+    }
+  }, [slug, id]);
+
+  if (loading) return <Spinner />;
+  if (!asset) return <p>Asset tidak ditemukan.</p>;
+
+  return (
+    <Container>
+        <Breadcrumbs/>
+        <AssetDetail asset={asset} />
+         <hr className="border-t-2 border-primary-950 my-8" />
+        <AssetRequestForm asset={asset} />
+    </Container>
+  );
+}

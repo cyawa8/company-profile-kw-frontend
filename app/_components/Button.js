@@ -2,9 +2,9 @@ import classNames from "classnames";
 
 export default function Button({children, size='medium', variation='primary', disabled=false, onClick, type='button'}){
     const sizeClasses = {
-    small: "text-sm px-3 py-1 font-semibold uppercase",
-    medium: "text-base px-5 py-2 font-medium",
-    large: "text-lg px-7 py-3 font-medium",
+    small: "text-sm px-3 py-1 font-bold uppercase",
+    medium: "text-base px-5 py-2 font-bold",
+    large: "text-lg px-7 py-3 font-bold",
   };
 
   const variationClasses = {
@@ -13,9 +13,7 @@ export default function Button({children, size='medium', variation='primary', di
     danger: "text-red-100 bg-red-700 hover:bg-red-800",
   };
 
-  const baseClasses =
-    "font-black border mb-3 rounded-md shadow-sm transition-all disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed";
-
+  const baseClasses = "font-black border mt-6 rounded-xl shadow-sm transition-all disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed";
   return (
     <button
       type={type}

@@ -24,24 +24,22 @@ export default function Navigation() {
   useEffect(() => () => window.clearTimeout(closeTimeout.current), []);
 
   const links = [
-    { href: "/", label: "Homepage" },
     {
       href: "/about",
-      label: "Who We Are",
+      label: "Siapa Kami",
       submenu: [
-        { href: "/about/journey", label: "Our Journey" },
-        { href: "/about/people", label: "Our People" },
-        { href: "/about/achievement", label: "Our Achievement" },
+        { href: "/about/journey", label: "Cerita Kami" },
+        { href: "/about/people", label: "Team Kami" },
+        { href: "/about/achievement", label: "Pencapaian kami" },
       ],
     },
-    { href: "/services", label: "What We Do" },
-    { href: "/global", label: "Our Connection" },
-    { href: "/contact", label: "Get In Touch" },
+    { href: "/services", label: "Keahlian Kami" },
+    { href: "/services/asset-management", label: "Menejemen Asset" },
+    { href: "/contact", label: "Hubungi Kami" },
   ];
 
   return (
-    <nav className="relative z-10 px-4 py-3 flex items-center justify-between">
-      {/* Hamburger Button */}
+    <nav className="relative flex items-center justify-between">
       <button
         className="md:hidden relative z-50 focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
@@ -58,10 +56,8 @@ export default function Navigation() {
         )}
       </button>
 
-      {/* Backdrop for mobile menu */}
       {isOpen && <div className="fixed inset-0 bg-black bg-opacity-50 z-30" onClick={() => setIsOpen(false)} />}
 
-      {/* Navigation Links */}
       <ul
         className={`
           fixed inset-y-0 right-0 w-3/4 z-40
@@ -73,7 +69,6 @@ export default function Navigation() {
         `}
       >
         {links.map(({ href, label, submenu }) => {
-          // aktif jika pathName sama dengan href utama atau salah satu submenu
           const isActive =
             pathName === href || (submenu && submenu.some(item => item.href === pathName));
 
@@ -118,7 +113,6 @@ export default function Navigation() {
                   </ul>
                 )}
 
-                {/* Mobile nested links */}
                 <ul className={`${isOpen ? "block" : "hidden"} md:hidden pl-4`}>
                   {submenu.map(item => (
                     <li key={item.href}>

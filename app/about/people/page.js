@@ -1,14 +1,12 @@
-import Container from "@/app//_components/Container";
-import H1 from "@/app//_components/H1";
+"use client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-export const metadata = {
-  title: "About",
-};
+export default function RedirectPeople() {
+  const router = useRouter();
+  useEffect(() => {
+    router.replace("/about/people/story");
+  }, [router]);
 
-export default function People(){
-    return(
-      <Container>
-        <H1>Our People</H1>
-      </Container>
-    );
+  return null;
 }

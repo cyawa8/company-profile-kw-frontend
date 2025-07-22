@@ -6,6 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useArticleContent } from "../pages/hooks/useArticleContent";
 import Spinner from "./Spinner";
+import { AnimatedDiv } from "./AnimatedDiv";
+import AnimatedParagraph from "./AnimatedParagraph";
 
 export default function ArticleDetail() {
   const { data, isLoading, error } = useArticleContent();
@@ -32,52 +34,57 @@ export default function ArticleDetail() {
         "
       >
         {latest2.map((content) => (
-          <div
-            key={content.id}
-            className="flex-shrink-0 w-72 bg-white shadow-md rounded-lg overflow-hidden"
-          >
-            <div className="relative h-48 w-full">
-              <Image
-                src={`http://localhost:8000/storage/${content.image}`}
-                alt={content.title}
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <h1 className="text-xl font-bold mb-2 text-gray-900">
-                {content.title}
-              </h1>
-              <p className="text-gray-600 mb-4 flex-1 text-sm">
-                {content.subtitle || content.excerpt}
-              </p>
-              <Link
-                href={`/detail/${content.id}`}
-                className="mt-auto inline-block text-primary-600 hover:underline font-medium"
-              >
-                Read more →
-              </Link>
-            </div>
-          </div>
+          <AnimatedDiv delay={50}  key={content.id}
+              className="flex-shrink-0 w-72 bg-white shadow-md rounded-lg overflow-hidden">
+              <div className="relative h-48 w-full">
+                <Image
+                  src={`http://localhost:8001/storage/${content.image}`}
+                  alt={content.title}
+                  fill
+                  className="object-cover"
+                  />
+              </div>
+              
+              <div className="p-6 flex-1 flex flex-col">
+                <h1 className="text-xl font-bold mb-2 text-gray-900">
+                  {content.title}
+                </h1>
+                <p className="text-gray-600 mb-4 flex-1 text-sm">
+                  {content.subtitle || content.excerpt}
+                </p>
+                <Link
+                  href={`/article/${content.id}`}
+                  className="mt-auto inline-block text-primary-600 hover:underline font-medium"
+                  >
+                  Read more →
+                </Link>
+              </div>
+        </AnimatedDiv>
+
         ))}
       </div>
 
-      <button
-        className="
-        order-2 self-center
-        inline-flex items-center
-        text-base
-        px-4 py-2
-        bg-white text-primary-950
-        rounded-full
-        hover:bg-gray-100
-        transition
-        md:mt-0 md:self-center
-        "
-      >
-        Let&apos;s Explore Further
-        <ArrowRightCircleIcon className="w-12 h-12 flex-shrink-0 gap-8 mr-2" />
-      </button>
+      <AnimatedDiv delay={75} className="order-2">
+      <Link href="/article">
+        <button
+          className="
+          self-center
+          inline-flex items-center
+          text-base
+          px-4 py-2
+          bg-white text-primary-950
+          rounded-full
+          hover:bg-gray-100
+          transition
+          md:mt-0 md:self-center
+          "
+          >
+          Let&apos;s Explore Further
+          <ArrowRightCircleIcon className="w-12 h-12 flex-shrink-0 gap-8 mr-2" />
+        </button>
+      </Link>
+      </AnimatedDiv>
+
     </div>
   );
 }

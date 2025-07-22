@@ -1,7 +1,7 @@
 "use client"
 
 import { Upload } from "antd";
-import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 
 export default function Form({ fields=[], onSubmit, formData, setFormData }){
 
@@ -9,7 +9,7 @@ export default function Form({ fields=[], onSubmit, formData, setFormData }){
     if (type === "file") {
         const fileList = (e.fileList || []).map((file, index) => ({
         ...file,
-        uid: file.uid || `${name}-${index}-${Date.now()}`, // pastikan UID ada dan unik
+        uid: file.uid || `${name}-${index}-${Date.now()}`,
         }));
         setFormData(prev => ({ ...prev, [name]: fileList }));
     } else {
@@ -54,20 +54,22 @@ export default function Form({ fields=[], onSubmit, formData, setFormData }){
                             </Upload>
                         ) : (
                             <input 
-                                type={field.type || "text"}
-                                name={field.name}
-                                id={field.name}
-                                placeholder={field.placeholder || ""}
-                                value={formData[field.name]}
-                                onChange={(e) =>
-                                    setFormData((prev) => ({
-                                    ...prev,
-                                    [field.name]: e.target.value,
-                                    }))
-                                }
-                                required={field.required}
-                                className="border rounded-md px-3 py-2"
+                            type={field.type || "text"}
+                            name={field.name}
+                            id={field.name}
+                            placeholder={field.placeholder || ""}
+                            value={formData[field.name]}
+                            onChange={(e) =>
+                                setFormData((prev) => ({
+                                ...prev,
+                                [field.name]: e.target.value,
+                                }))
+                            }
+                            required={field.required}
+                            className="border rounded-md px-3 py-2"
+                            disabled={field.disabled}
                             />
+
                         )
                     }
                 </div>

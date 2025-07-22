@@ -1,4 +1,4 @@
-const BASE_URL = 'http://127.0.0.1:8000/api';
+const BASE_URL = 'http://localhost:8001/api';
 
 export async function getHomeContent() {
   const res = await fetch(`${BASE_URL}/home-content`);
@@ -18,11 +18,29 @@ export async function getAboutAward() {
   return res.json();
 }
 
-export async function getAboutPeople() {
+export async function getAboutPeopleLeader() {
   const res = await fetch(`${BASE_URL}/about-people`);
+  if (!res.ok) throw new Error('Error fetching data');
+  const data = await res.json();
+
+  return data.filter(item => item.category === "Leader");
+}
+
+export async function getAboutPeopleStory() {
+  const res = await fetch(`${BASE_URL}/about-people`);
+  if (!res.ok) throw new Error('Error fetching data');
+  const data = await res.json();
+
+  return data.filter(item => item.category === "Client");
+}
+
+export async function getAboutPeopleByName(name) {
+  const encoded = encodeURIComponent(name);
+  const res = await fetch(`${BASE_URL}/about-people/name/${encoded}`);
   if (!res.ok) throw new Error('Error fetching data');
   return res.json();
 }
+
 
 export async function getArticleCategory() {
   const res = await fetch(`${BASE_URL}/article-category`);
@@ -35,6 +53,33 @@ export async function getArticleDetail() {
   if (!res.ok) throw new Error('Error fetching data');
   return res.json();
 }
+
+export async function getService(){
+  const res = await fetch(`${BASE_URL}/service/`)
+  if (!res.ok) throw new Error('Error fetching data');
+  return res.json();
+}
+
+export async function getAssetManagement(){
+  const res = await fetch(`${BASE_URL}/asset-management/`)
+  if (!res.ok) throw new Error('Error fetching data');
+  return res.json();
+}
+
+export async function getServiceSlug(slug) {
+  const res = await fetch(`${BASE_URL}/service-slug/${slug}`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch service detail");
+  }
+  return await res.json();
+}
+
+export async function getArticleDetailById(id) {
+  const res = await fetch(`${BASE_URL}/article-detail/${id}`);
+  if (!res.ok) throw new Error('Error fetching data');
+  return res.json();
+}
+
 
 export async function createArticleDetail(formData){
   const res = await fetch(`${BASE_URL}/article-detail`, {

@@ -3,7 +3,7 @@
 import { createContext, useContext, useState } from "react";
 import { Modal } from "antd";
 
-const ModalContext = createContext();
+export const ModalContext = createContext();
 
 export const ModalProvider = ({children}) => {
     const [modalProps, setModalProps] = useState({});

@@ -12,7 +12,7 @@ export default function HomeApproach() {
     
     <AnimatedDiv delay={100} className="w-full md:w-1/2 h-[220px] md:h-[500px] relative">
       <Image
-        src="/about.png"
+        src="/about.jpg"
         alt="Ilustrasi PT KIWI"
         fill
         className="rounded-2xl object-cover"

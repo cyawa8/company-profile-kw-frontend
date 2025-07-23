@@ -214,7 +214,7 @@ function resetFilter() {
                     )}
                     {item.photos?.[0]?.image ? (
                       <Image
-                        src={`http://localhost:8001/storage/${item.photos[0].image}`}
+                        src={`https://api.kiwi.co.id/storage/${item.photos[0].image}`}
                         alt={item.asset_number}
                         fill
                         className="object-cover"

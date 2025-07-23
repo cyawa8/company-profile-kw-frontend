@@ -38,7 +38,7 @@ export default function AboutStory() {
 
           <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden">
             <Image
-              src={`http://localhost:8001/storage/${person.image}`}
+              src={`https://api.kiwi.co.id/storage/${person.image}`}
               alt={person.name}
               fill
               className="object-cover"

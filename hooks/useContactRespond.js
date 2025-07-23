@@ -5,7 +5,7 @@ export function useContactRespond() {
 
   const mutation = useMutation({
     mutationFn: async (data) => {
-      const res = await fetch("http://localhost:8001/api/contacts-respond", {
+      const res = await fetch("https://api.kiwi.co.id/api/contacts-respond", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

@@ -22,7 +22,7 @@ export default function AboutPeopleDetail({ data }) {
         <div className="w-full md:w-72 flex-shrink-0 flex justify-center">
           <div className="relative w-56 h-56 md:w-72 md:h-72 rounded-2xl overflow-hidden shadow-lg">
             <Image
-              src={`http://localhost:8001/storage/${data.image}`}
+              src={`https://api.kiwi.co.id/storage/${data.image}`}
               alt={data.name}
               fill
               className="object-cover"

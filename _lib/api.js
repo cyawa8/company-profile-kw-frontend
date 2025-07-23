@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8001/api';
+const BASE_URL = 'https://api.kiwi.co.id/api';
 
 export async function getHomeContent() {
   const res = await fetch(`${BASE_URL}/home-content`);

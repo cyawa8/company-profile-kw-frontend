@@ -7,7 +7,7 @@ export default function PeopleCard({ name, title, location, image, quote }) {
     <div className="flex flex-col md:flex-row items-start gap-6 bg-white rounded-2xl shadow p-6 md:p-10 mb-8">
         <div className="flex-shrink-0 rounded-2xl overflow-hidden w-full max-w-[320px] h-[320px] md:w-[240px] md:h-[240px]">
             <Image
-            src={`http://localhost:8001/storage/${image}`}
+            src={`https://api.kiwi.co.id/storage/${image}`}
             alt={name}
             width={320}
             height={320}

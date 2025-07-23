@@ -31,7 +31,7 @@ export default function Service() {
           >
             <div className="relative w-full md:w-80 aspect-square flex-shrink-0">
               <Image
-                src={`http://localhost:8001/storage/${item.image}`}
+                src={`https://api.kiwi.co.id/storage/${item.image}`}
                 alt={item.image}
                 fill
                 className="object-cover rounded-xl"

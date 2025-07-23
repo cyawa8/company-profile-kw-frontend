@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Modal, Form, Input } from "antd";
 import Button from "./Button";
 import toast from "react-hot-toast";
-import { useContactRespond } from "@/pages/hooks/useContactRespond";
+import { useContactRespond } from "@/hooks/useContactRespond";
 
 export default function ContactRespondModal({ open, onClose }) {
   const [form] = Form.useForm();

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useMemo } from "react";
 import MENU from "./Menu";
+import Image from "next/image";
 
 function FacebookIcon(props) { return <svg {...props} fill="none" viewBox="0 0 24 24"><path d="M17 2H7a5 5 0 00-5 5v10a5 5 0 005 5h5v-7H9v-3h3V9.5A3.5 3.5 0 0115.5 6H19v3h-3.5A1.5 1.5 0 0014 10.5V12h5l-1 3h-4v7h2a5 5 0 005-5V7a5 5 0 00-5-5z" fill="currentColor" /></svg>; }
 function XIcon(props) { return <span {...props}>X</span> }
@@ -50,10 +51,17 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="order-1 md:order-2 flex-1 flex flex-col items-center md:items-end md:justify-center mb-8 md:mb-0">
-            <span className="uppercase text-xs tracking-widest mb-1 opacity-80">Got a project in mind?</span>
-            <span className="text-4xl sm:text-5xl md:text-6xl font-light leading-none mb-4 md:mb-0">Let&apos;s talk</span>
+          <div className="order-1 md:order-2 flex-1 flex items-center justify-center mb-8 md:mb-0">
+            <Image
+              src="/kiwi-ceria.png"
+              alt="Got a project in mind illustration"
+              width={150}
+              height={150}
+              className="object-contain"
+              priority
+            />
           </div>
+
         </div>
 
         <div className="my-8 border-t border-dotted border-primary-0/40"></div>
@@ -72,7 +80,6 @@ export default function Footer() {
         </div>
         <div className="flex items-center gap-2 justify-center text-xs mt-6 md:mt-0 opacity-80">
         <span>&copy; {new Date().getFullYear()} Kinerja Inovasi Wira Indonesia</span>
-        <span>Seluruh hak cipta dilindungi..</span>
         </div>
 
       </div>

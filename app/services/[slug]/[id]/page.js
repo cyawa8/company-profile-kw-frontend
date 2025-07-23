@@ -7,6 +7,7 @@ import AssetDetail from "@/app/_components/AssetDetail";
 import Breadcrumbs from "@/app/_components/Breadcrumbs";
 import Container from "@/app/_components/Container";
 import AssetRequestForm from "@/app/_components/AssetRequest";
+import NoData from "@/app/_components/NoData";
 
 export default function AssetDetailPage() {
   const { slug, id } = useParams();
@@ -25,7 +26,7 @@ export default function AssetDetailPage() {
   }, [slug, id]);
 
   if (loading) return <Spinner />;
-  if (!asset) return <p>Asset tidak ditemukan.</p>;
+  if (!asset) return <NoData />;
 
   return (
     <Container>

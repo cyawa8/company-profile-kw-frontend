@@ -1,3 +1,4 @@
+import Link from "next/link";
 import AnimatedParagraph from "./AnimatedParagraph";
 import H1 from "./H1";
 
@@ -14,12 +15,12 @@ export default function SectionHeader() {
     </AnimatedParagraph>
 
     <AnimatedParagraph delay={50}>
-    <a
+    <Link
       href="/about/people/story"
       className="text-primary-950 font-medium hover:underline text-lg text-right md:text-right md:ml-auto"
       >
       Lihat leboh jauh &rarr;
-    </a>
+    </Link>
     </AnimatedParagraph>
   </div>
 

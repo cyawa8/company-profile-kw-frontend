@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getAboutAchievement } from '@/pages/_lib/api';
+import { getAboutAchievement } from '@/_lib/api';
 import { useMemo } from 'react';
 
 

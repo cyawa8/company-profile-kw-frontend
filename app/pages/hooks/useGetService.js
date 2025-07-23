@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getService } from '../_lib/api';
+import { getService } from '@/_lib/api';
 import { useMemo } from 'react';
 
 

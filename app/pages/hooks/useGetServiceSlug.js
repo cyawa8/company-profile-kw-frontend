@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getServiceSlug } from "../_lib/api";
 import { useMemo } from "react";
+import { getServiceSlug } from "../_lib/api";
 
 export function useGetServiceSlug({ slug }) {
   const { data: rawData, isLoading, error } = useQuery({

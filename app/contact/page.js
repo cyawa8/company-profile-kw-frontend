@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { useContact } from "@/pages/hooks/useContact";
+import { useContact } from "@/hooks/useContact";
 import Spinner from "../_components/Spinner";
 import ContactRespondModal from "../_components/ContactRespondModal";
 import Link from "next/link";

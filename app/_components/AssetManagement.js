@@ -126,7 +126,7 @@ function resetFilter() {
 
 
   if (isLoading) return <Spinner />;
-  if (error) return <p className="text-red-500">Gagal memuat data aset.</p>;
+  if (error) return <NoData />;
 
   return (
     <>

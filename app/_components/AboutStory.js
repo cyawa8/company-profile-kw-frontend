@@ -13,7 +13,7 @@ export default function AboutStory() {
   const { data, isLoading, error } = useAboutStory();
   
   if (isLoading) return <Spinner />;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <NoData />;
 
   if (!data || data.length === 0) return <NoData />;
 

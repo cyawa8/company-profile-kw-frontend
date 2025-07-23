@@ -8,6 +8,7 @@ import Container from "../_components/Container";
 import Link from "next/link";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import { AnimatedDiv } from "../_components/AnimatedDiv";
+import NoData from "../_components/NoData";
 
 export default function Article() {
   const { data = [], isLoading, error } = useArticleContent();
@@ -27,7 +28,7 @@ export default function Article() {
   }, [data, search, category]);
 
   if (isLoading) return <Spinner />;
-  if (error) return <div>Error: {error.message}</div>;
+  if (error) return <NoData />;
 
   return (
     <Container>

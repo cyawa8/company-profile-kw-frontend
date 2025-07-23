@@ -5,15 +5,16 @@ import { useArticleDetail } from "@/app/pages/hooks/useArticleDetail";
 import H1 from "./H1";
 import Breadcrumbs from "./Breadcrumbs";
 import { AnimatedDiv } from "./AnimatedDiv";
+import NoData from "./NoData";
 
 export default function ArticleDetailClient({ id }) {
   const { data, isLoading, error } = useArticleDetail({ id });
 
   if (isLoading) return <Spinner />;
-  if (error) return <div className="text-center py-12 text-red-500">{error.message}</div>;
+  if (error) return <NoData />;
 
   const article = Array.isArray(data) ? data[0] : data;
-  if (!article) return <div className="text-center py-12">Data tidak ditemukan.</div>;
+  if (!article) return <NoData />;
 
   return (
     <>

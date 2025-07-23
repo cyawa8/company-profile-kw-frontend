@@ -11,6 +11,7 @@ import HomeHighlight from "./_components/HomeHighlight";
 import People from "./_components/People";
 import AnimatedParagraph from "./_components/AnimatedParagraph";
 import { AnimatedDiv } from "./_components/AnimatedDiv";
+import NoData from "./_components/NoData";
 
 function isValidUrl(url) {
   if (!url) return false;
@@ -21,7 +22,7 @@ export default function Page() {
   const { data, isLoading, error } = useHomeContent();
 
   if (isLoading) return <Loading />;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <NoData />;
 
   return (
     <>

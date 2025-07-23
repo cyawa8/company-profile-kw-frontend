@@ -4,6 +4,7 @@ import { useState } from "react";
 import PeopleCard from "./CardPeople";
 import Spinner from "./Spinner";
 import { useAboutPeople } from "../pages/hooks/useAboutPeople";
+import NoData from "./NoData";
 
 export default function PeopleList() {
   const { data, isLoading, error } = useAboutPeople();
@@ -11,7 +12,7 @@ export default function PeopleList() {
 
   if (isLoading) return <Spinner />;
   if (error) return <div className="text-red-500">Error: {error.message}</div>;
-  if (!data || data.length === 0) return <div>Data tidak ditemukan.</div>;
+  if (!data || data.length === 0) return <NoData />;
 
   const people = data.slice(0, 2);
 

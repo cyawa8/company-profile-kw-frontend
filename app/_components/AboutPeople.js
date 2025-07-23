@@ -13,7 +13,7 @@ export default function AboutPeople() {
   const { data, isLoading, error } = useAboutPeople();
   
   if (isLoading) return <Spinner />;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <NoData />;
 
   if (!data || data.length === 0) return <NoData />;
 

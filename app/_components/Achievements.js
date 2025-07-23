@@ -4,6 +4,7 @@ import { useGetAchievement } from "../pages/hooks/useGetAchievement";
 import AchievementMarqueeRow from "./Achievement";
 import { AnimatedDiv } from "./AnimatedDiv";
 import Container from "./Container";
+import NoData from "./NoData";
 import Spinner from "./Spinner";
 import Image from "next/image";
 
@@ -25,7 +26,7 @@ export default function Achievements(){
   }));
 
   if(isLoading) return <Spinner/>;
-  if(error) return <p>Error Fetch Data</p>;
+  if(error) return <NoData />;
 
   return(
     <div className="w-full bg-gradient-to-b from-primary-50/60 to-white min-h-[50vh] py-6">

@@ -4,12 +4,13 @@ import Image from "next/image";
 import { useAboutJourney } from "../pages/hooks/useAboutJourney";
 import Spinner from "./Spinner";
 import H1 from "./H1";
+import NoData from "./NoData";
 
 export default function AboutJourney() {
   const { data, isLoading, error } = useAboutJourney();
 
   if (isLoading) return <Spinner />;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <NoData />;
 
   return (
     <div className="relative px-2 sm:px-4">

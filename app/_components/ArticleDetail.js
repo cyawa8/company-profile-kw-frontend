@@ -8,12 +8,13 @@ import { useArticleContent } from "../pages/hooks/useArticleContent";
 import Spinner from "./Spinner";
 import { AnimatedDiv } from "./AnimatedDiv";
 import AnimatedParagraph from "./AnimatedParagraph";
+import NoData from "./NoData";
 
 export default function ArticleDetail() {
   const { data, isLoading, error } = useArticleContent();
 
   if (isLoading) return <Spinner />;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <NoData />;
 
   const latest2 = data.slice(0, 2);
 

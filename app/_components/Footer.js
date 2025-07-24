@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useMemo } from "react";
+import { useParams } from "next/navigation";
 import MENU from "./Menu";
 import Image from "next/image";
 
@@ -9,7 +10,23 @@ function XIcon(props) { return <span {...props}>X</span> }
 function InstagramIcon(props) { return <span {...props}>IG</span> }
 function YoutubeIcon(props) { return <span {...props}>YT</span> }
 
+const TEXT = {
+  id: {
+    legal: "Ketentuan Layanan",
+    privacy: "Kebijakan Privasi",
+    copyright: "Kinerja Inovasi Wira Indonesia",
+  },
+  en: {
+    legal: "Legal Terms",
+    privacy: "Privacy Policy",
+    copyright: "Kinerja Inovasi Wira Indonesia",
+  },
+};
+
 export default function Footer() {
+  const { lang = "id" } = useParams();
+  const t = TEXT[lang] || TEXT.id;
+
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   const columns = useMemo(() => {
@@ -43,7 +60,7 @@ export default function Footer() {
                 <ul key={i} className="space-y-1 text-md font-semibold">
                   {col.map(item => (
                     <li key={item.href}>
-                      <Link href={item.href} className="hover:underline">{item.label}</Link>
+                      <Link href={`/${lang}${item.href}`} className="hover:underline">{item.label}</Link>
                     </li>
                   ))}
                 </ul>
@@ -61,27 +78,25 @@ export default function Footer() {
               priority
             />
           </div>
-
         </div>
 
         <div className="my-8 border-t border-dotted border-primary-0/40"></div>
 
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6 text-xs">
           <div className="flex gap-5 justify-center md:justify-start text-sm font-semibold">
-            <Link href="/legal">Ketentuan Layanan</Link>
-            <Link href="/privasi">Kebijakan Privasi</Link>
+            <Link href={`/${lang}/legal`}>{t.legal}</Link>
+            <Link href={`/${lang}/privasi`}>{t.privacy}</Link>
           </div>
           <div className="flex gap-4 text-xl justify-center md:justify-end">
-            <Link href="#"><FacebookIcon className="hover:opacity-70" /></Link>
-            <Link href="#"><XIcon className="hover:opacity-70" /></Link>
-            <Link href="#"><InstagramIcon className="hover:opacity-70" /></Link>
-            <Link href="#"><YoutubeIcon className="hover:opacity-70" /></Link>
+            <Link href="https://facebook.com" target="_blank" rel="noopener"><FacebookIcon className="hover:opacity-70" /></Link>
+            <Link href="https://twitter.com" target="_blank" rel="noopener"><XIcon className="hover:opacity-70" /></Link>
+            <Link href="https://instagram.com" target="_blank" rel="noopener"><InstagramIcon className="hover:opacity-70" /></Link>
+            <Link href="https://youtube.com" target="_blank" rel="noopener"><YoutubeIcon className="hover:opacity-70" /></Link>
           </div>
         </div>
         <div className="flex items-center gap-2 justify-center text-xs mt-6 md:mt-0 opacity-80">
-        <span>&copy; {new Date().getFullYear()} Kinerja Inovasi Wira Indonesia</span>
+          <span>&copy; {new Date().getFullYear()} {t.copyright}</span>
         </div>
-
       </div>
     </footer>
   );

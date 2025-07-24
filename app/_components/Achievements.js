@@ -60,7 +60,7 @@ export default function Achievements(){
                 transition-transform duration-300
                 group-hover:scale-105">
                 <Image
-                  src={`https://api.kiwi.co.id/storage/${item.image}`}
+                  src={`http://api.kiwi.co.id/storage/${item.image}`}
                   alt={item.title || "Achievement"}
                   fill
                   className="object-contain"

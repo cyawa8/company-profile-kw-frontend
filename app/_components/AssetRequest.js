@@ -1,11 +1,37 @@
-"use client";
-
 import { useState } from "react";
 import Form from "@/app/_components/Form";
 import Button from "@/app/_components/Button";
 import toast from "react-hot-toast";
 
-export default function AssetRequestForm({ asset }) {
+const TEXT = {
+  id: {
+    formTitle: "Form Permintaan Lelang",
+    assetNumber: "Nomor Aset",
+    name: "Nama",
+    email: "Email",
+    phone: "Nomor Telepon",
+    desc: "Keterangan",
+    submit: "Kirim Permintaan",
+    sending: "Mengirim...",
+    success: "Permintaan berhasil dikirim! Anda akan segera kami hubungi",
+    fail: "Gagal mengirim permintaan."
+  },
+  en: {
+    formTitle: "Auction Request Form",
+    assetNumber: "Asset Number",
+    name: "Name",
+    email: "Email",
+    phone: "Phone Number",
+    desc: "Description",
+    submit: "Send Request",
+    sending: "Sending...",
+    success: "Request sent! We will contact you soon",
+    fail: "Failed to send request."
+  }
+};
+
+export default function AssetRequestForm({ asset, lang = "id" }) {
+  const t = TEXT[lang] || TEXT.id;
   const [formData, setFormData] = useState({
     asset_number: asset.asset_number,
     name: "",
@@ -19,7 +45,7 @@ export default function AssetRequestForm({ asset }) {
     e.preventDefault();
     setLoading(true);
 
-    const res = await fetch("https://api.kiwi.co.id/api/asset-requests", {
+    const res = await fetch("http://api.kiwi.co.id/api/asset-requests", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -34,7 +60,7 @@ export default function AssetRequestForm({ asset }) {
     setLoading(false);
 
     if (res.ok) {
-      toast.success("Permintaan berhasil dikirim! Anda akan segera kami hubungi");
+      toast.success(t.success);
       setFormData({
         asset_number: asset.asset_number,
         name: "",
@@ -43,35 +69,35 @@ export default function AssetRequestForm({ asset }) {
         description: "",
       });
     } else {
-      toast.error("Gagal mengirim permintaan.");
+      toast.error(t.fail);
     }
   };
 
   const fields = [
-    { name: "asset_number", label: "Asset Number", required: true, disabled: true },
-    { name: "name", label: "Nama", required: true },
-    { name: "email", label: "Email", required: true, type: "email" },
-    { name: "phone", label: "Nomor Telepon", required: true },
-    { name: "description", label: "Keterangan", type: "textarea", required: false },
+    { name: "asset_number", label: t.assetNumber, required: true, disabled: true },
+    { name: "name", label: t.name, required: true },
+    { name: "email", label: t.email, required: true, type: "email" },
+    { name: "phone", label: t.phone, required: true },
+    { name: "description", label: t.desc, type: "textarea", required: false },
   ];
 
   return (
     <div className="mt-8 p-6 bg-gray-50 rounded-xl shadow">
-      <h2 className="text-xl font-bold mb-3">Form Permintaan Lelang</h2>
+      <h2 className="text-xl font-bold mb-3">{t.formTitle}</h2>
       <Form
         fields={fields}
         onSubmit={handleRequestSubmit}
         formData={formData}
         setFormData={setFormData}
       />
-        <Button
-          type="submit"
-          onClick={handleRequestSubmit}
-          disabled={loading}
-          variation="primary"
-        >
-          {loading ? "Mengirim..." : "Kirim Permintaan"}
-        </Button>
+      <Button
+        type="submit"
+        onClick={handleRequestSubmit}
+        disabled={loading}
+        variation="primary"
+      >
+        {loading ? t.sending : t.submit}
+      </Button>
     </div>
   );
 }

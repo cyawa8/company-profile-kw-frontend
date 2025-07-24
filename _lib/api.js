@@ -1,7 +1,9 @@
-const BASE_URL = 'https://api.kiwi.co.id/api';
+const BASE_URL = 'http://api.kiwi.co.id/api';
 
-export async function getHomeContent() {
-  const res = await fetch(`${BASE_URL}/home-content`);
+export async function getHomeContent(lang = "id") {
+  const res = await fetch(`${BASE_URL}/home-content?lang=${lang}`, {
+    headers: { 'Accept': 'application/json' }
+  });
   if (!res.ok) throw new Error('Error fetching data api');
   return res.json();
 }

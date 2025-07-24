@@ -1,15 +1,16 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import LanguageFlagSwitcher from "./Switcher";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const closeTimeout = useRef();
+  const { lang } = useParams();
   const pathName = usePathname();
 
-  // Lock body scroll for mobile
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -41,21 +42,24 @@ export default function Navigation() {
   const links = [
     {
       href: "/about",
-      label: "Siapa Kami",
+      label: lang === "en" ? "About Us" : "Siapa Kami",
       submenu: [
-        { href: "/about/journey", label: "Cerita Kami" },
-        { href: "/about/people", label: "Team Kami" },
-        { href: "/about/achievement", label: "Pencapaian kami" },
+        { href: "/about/journey", label: lang === "en" ? "Our Journey" : "Cerita Kami" },
+        { href: "/about/people", label: lang === "en" ? "Our Team" : "Team Kami" },
+        { href: "/about/achievement", label: lang === "en" ? "Achievements" : "Pencapaian Kami" },
       ],
     },
-    { href: "/services", label: "Keahlian Kami" },
-    { href: "/services/asset-management", label: "Menejemen Asset" },
-    { href: "/contact", label: "Hubungi Kami" },
+    { href: "/services", label: lang === "en" ? "Our Services" : "Keahlian Kami" },
+    { href: "/services/asset-management", label: lang === "en" ? "Asset Management" : "Manajemen Aset" },
+    { href: "/contact", label: lang === "en" ? "Contact" : "Hubungi Kami" },
   ];
+
+  function navIsActive(navHref) {
+    return pathName === `/${lang}${navHref}`;
+  }
 
   return (
     <>
-      {/* Hamburger hanya mobile */}
       <button
         className="md:hidden block relative z-50"
         onClick={() => setIsOpen(true)}
@@ -66,32 +70,42 @@ export default function Navigation() {
         </svg>
       </button>
 
-      {/* Menu desktop */}
       <ul className="hidden md:flex flex-row space-x-8 font-bold text-base items-center">
         {links.map(({ href, label, submenu }) => {
           const isActive =
-            pathName === href || (submenu && submenu.some(item => item.href === pathName));
+            navIsActive(href) ||
+            (submenu && submenu.some(item => navIsActive(item.href)));
 
           if (submenu) {
             return (
-              <li key={href} className="relative group">
+              <li
+                key={href}
+                className="relative group"
+                onMouseEnter={() => openDropdown(href)}
+                onMouseLeave={scheduleClose}
+              >
                 <Link
-                  href={href}
+                  href={`/${lang}${href}`}
                   className={`transition-colors cursor-pointer ${isActive ? "text-primary-950" : "hover:text-accent-400"}`}
                   aria-current={isActive ? "page" : undefined}
                 >
                   {label}
                 </Link>
-                {/* Dropdown on hover */}
-                <ul className="absolute left-0 top-full hidden group-hover:block bg-white rounded shadow-md mt-2 min-w-[200px] z-50">
+                <ul
+                  className={`absolute left-0 top-full bg-white rounded shadow-md mt-2 min-w-[200px] z-50 ${
+                    dropdownOpen === href ? "block" : "hidden"
+                  }`}
+                  onMouseEnter={() => openDropdown(href)}
+                  onMouseLeave={scheduleClose}
+                >
                   {submenu.map(item => (
                     <li key={item.href}>
                       <Link
-                        href={item.href}
+                        href={`/${lang}${item.href}`}
                         className={`block px-4 py-2 text-sm hover:bg-primary-100 ${
-                          item.href === pathName ? "text-primary-950 font-semibold" : ""
+                          navIsActive(item.href) ? "text-primary-950 font-semibold" : ""
                         }`}
-                        aria-current={item.href === pathName ? "page" : undefined}
+                        aria-current={navIsActive(item.href) ? "page" : undefined}
                       >
                         {item.label}
                       </Link>
@@ -105,7 +119,7 @@ export default function Navigation() {
           return (
             <li key={href}>
               <Link
-                href={href}
+                href={`/${lang}${href}`}
                 className={`transition-colors font-bold ${
                   isActive ? "text-primary-950" : "hover:text-accent-400"
                 }`}
@@ -118,7 +132,6 @@ export default function Navigation() {
         })}
       </ul>
 
-      {/* Mobile menu */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
@@ -136,7 +149,6 @@ export default function Navigation() {
         `}
         onClick={e => e.stopPropagation()}
       >
-        {/* Tombol X close */}
         <div className="flex justify-end mb-2">
           <button
             className="z-50 p-2"
@@ -150,7 +162,8 @@ export default function Navigation() {
         </div>
         {links.map(({ href, label, submenu }) => {
           const isActive =
-            pathName === href || (submenu && submenu.some(item => item.href === pathName));
+            navIsActive(href) ||
+            (submenu && submenu.some(item => navIsActive(item.href)));
           if (submenu) {
             return (
               <li key={href}>
@@ -159,12 +172,12 @@ export default function Navigation() {
                   {submenu.map(item => (
                     <li key={item.href}>
                       <Link
-                        href={item.href}
+                        href={`/${lang}${item.href}`}
                         onClick={() => setIsOpen(false)}
                         className={`block px-4 py-2 text-sm font-medium ${
-                          item.href === pathName ? "bg-gray-100 font-semibold" : ""
+                          navIsActive(item.href) ? "bg-gray-100 font-semibold" : ""
                         }`}
-                        aria-current={item.href === pathName ? "page" : undefined}
+                        aria-current={navIsActive(item.href) ? "page" : undefined}
                       >
                         {item.label}
                       </Link>
@@ -177,7 +190,7 @@ export default function Navigation() {
           return (
             <li key={href}>
               <Link
-                href={href}
+                href={`/${lang}${href}`}
                 onClick={() => setIsOpen(false)}
                 className={`transition-colors font-bold ${
                   isActive ? "text-primary-950" : "hover:text-accent-400"
@@ -189,6 +202,7 @@ export default function Navigation() {
             </li>
           );
         })}
+        <LanguageFlagSwitcher className="mt-4" onSwitch={() => setIsOpen(false)} />
       </ul>
     </>
   );

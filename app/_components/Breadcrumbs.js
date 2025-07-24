@@ -2,33 +2,38 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-const links = [
-  {
-    href: "/about",
-    label: "Who We Are",
-    submenu: [
-      { href: "/about/journey", label: "Our Journey" },
-      { href: "/about/people", label: "Our People" },
-      { href: "/about/achievement", label: "Our Achievement" },
-    ],
+const TEXT = {
+  id: {
+    home: "Beranda",
+    about: "Siapa Kami",
+    "about/journey": "Perjalanan Kami",
+    "about/people": "Rekan Kami",
+    "about/achievement": "Pencapaian Kami",
+    services: "Keahlian Kami",
+    global: "Jaringan Global",
+    contact: "Hubungi Kami",
+    article: "Artikel",
   },
-  { href: "/services", label: "Our Expertise" },
-  { href: "/global", label: "Our Connection" },
-  { href: "/contact", label: "Get In Touch" },
-];
+  en: {
+    home: "Home",
+    about: "Who We Are",
+    "about/journey": "Our Journey",
+    "about/people": "Our People",
+    "about/achievement": "Our Achievement",
+    services: "Our Expertise",
+    global: "Our Connection",
+    contact: "Get In Touch",
+    article: "Article",
+  },
+};
 
-function getLabel(path) {
-  for (const link of links) {
-    if (link.href === path) return link.label;
-    if (link.submenu) {
-      const found = link.submenu.find((s) => s.href === path);
-      if (found) return found.label;
-    }
-  }
+function getLabel(path, lang) {
+  const t = TEXT[lang] || TEXT.id;
+  if (t[path.replace(/^\//, "")]) return t[path.replace(/^\//, "")];
+  if (t[path.split("/").slice(-1)[0]]) return t[path.split("/").slice(-1)[0]];
   return decodeURIComponent(path.split("/").pop() || "")
     .replace(/-/g, " ")
-    .replace(/^\w/, c => c.toUpperCase()) || "Home";
-
+    .replace(/^\w/, c => c.toUpperCase());
 }
 
 export default function Breadcrumbs({ articleTitle, loading }) {
@@ -36,23 +41,28 @@ export default function Breadcrumbs({ articleTitle, loading }) {
   const router = useRouter();
 
   const segments = pathname.split("/").filter(Boolean);
-  const crumbs = segments.map((seg, i) => {
-    const href = "/" + segments.slice(0, i + 1).join("/");
-    let label = getLabel(href);
+  let lang = segments[0] === "id" || segments[0] === "en" ? segments[0] : "id";
+  const pathSegments = segments[0] === "id" || segments[0] === "en" ? segments.slice(1) : segments;
+
+  const crumbs = pathSegments.map((seg, i) => {
+    const href = "/" + [lang, ...pathSegments.slice(0, i + 1)].join("/");
+    let pathKey = pathSegments.slice(0, i + 1).join("/");
+    let label = getLabel(pathKey, lang);
+
     if (
-      segments[0] === "article" &&
-      i === segments.length - 1 &&
+      pathSegments[0] === "article" &&
+      i === pathSegments.length - 1 &&
       (articleTitle || loading)
     ) {
       label = loading
         ? <span className="animate-pulse text-gray-400">Loading...</span>
         : articleTitle;
     }
-
     return { href, label };
   });
-  const breadcrumbs = [{ href: "/", label: "Home" }, ...crumbs];
 
+  const t = TEXT[lang] || TEXT.id;
+  const breadcrumbs = [{ href: `/${lang}`, label: t.home }, ...crumbs];
   const lastCrumb = breadcrumbs[breadcrumbs.length - 1];
   const prevCrumb = breadcrumbs[breadcrumbs.length - 2];
 
@@ -70,7 +80,6 @@ export default function Breadcrumbs({ articleTitle, loading }) {
           </li>
         ))}
       </ol>
-
       <div className="flex sm:hidden items-center gap-1">
         {prevCrumb && (
           <button

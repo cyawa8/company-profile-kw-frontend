@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { getAboutPeopleLeader } from '../_lib/api';
+import { getAboutPeopleByCategory } from '../_lib/api';
 
 
-export function useAboutPeople(){
+export function useAboutPeople(lang){
     const {data: rawData, isLoading, error} = 
     useQuery({
-        queryKey: ['aboutPeopleLeader'],
-        queryFn: getAboutPeopleLeader, 
+        queryKey: ['aboutLeaders', lang],
+        queryFn: () => getAboutPeopleByCategory(lang, 'Leader'),
         staleTime : 0,
         refetchOnMount: true,
     })

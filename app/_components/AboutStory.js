@@ -1,5 +1,6 @@
 "use client"
 
+import { useParams } from "next/navigation";
 import H1 from "./H1";
 import Image from "next/image";
 import Button from "./Button";
@@ -10,11 +11,11 @@ import { AnimatedDiv } from "./AnimatedDiv";
 import NoData from "./NoData";
 
 export default function AboutStory() {
-  const { data, isLoading, error } = useAboutStory();
-  
+  const { lang } = useParams();
+  const { data, isLoading, error } = useAboutStory(lang);
+
   if (isLoading) return <Spinner />;
   if (error) return <NoData />;
-
   if (!data || data.length === 0) return <NoData />;
 
   return (
@@ -26,26 +27,22 @@ export default function AboutStory() {
             <p className="mt-1 text-lg text-secondary-800">{person.job}</p>
             <p className="mt-1 italic text-secondary-700">&quot;{person.word}&quot;</p>
             <div className="mt-4">
-               <Link href={`/about/people/${encodeURIComponent(person.name)}`}>
-                <Button
-                  variation="primary"
-                  >
-                  Lihat Profil {person.name}
+               <Link href={`/${lang}/about/people/${encodeURIComponent(person.name)}`}>
+                <Button variation="primary">
+                  {lang === "en" ? `View Profile of ${person.name}` : `Lihat Profil ${person.name}`}
                 </Button>
               </Link>
             </div>
           </div>
-
           <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden">
             <Image
-              src={`https://api.kiwi.co.id/storage/${person.image}`}
+              src={`http://api.kiwi.co.id/storage/${person.image}`}
               alt={person.name}
               fill
               className="object-cover"
-              />
+            />
           </div>
         </AnimatedDiv>
-        
       ))}
     </div>
   );

@@ -2,10 +2,10 @@
 const nextConfig = {
   images: {
     remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '8001',
+     {
+        protocol: 'https',
+        hostname: 'api.kiwi.co.id',
+        port: '',
         pathname: '/storage/**',
       },
       {

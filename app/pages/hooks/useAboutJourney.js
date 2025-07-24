@@ -3,11 +3,11 @@ import { getAboutContent} from '../_lib/api';
 import { useMemo } from 'react';
 
 
-export function useAboutJourney(){
+export function useAboutJourney(lang){
     const {data: rawData, isLoading, error} = 
     useQuery({
-        queryKey: ['aboutJourney'],
-        queryFn: getAboutContent, 
+        queryKey: ['aboutContent', lang],
+        queryFn: () => getAboutContent(lang),
         staleTime : 0,
         refetchOnMount: true,
     })

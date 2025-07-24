@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useParams } from "next/navigation";
 import { Select, Input } from "antd";
 import Image from "next/image";
 import { useAssetManagement } from "@/app/pages/hooks/useAssetManagement";
@@ -12,7 +13,42 @@ import dayjs from "dayjs";
 import NoData from "./NoData";
 import { AnimatedDiv } from "./AnimatedDiv";
 
+const TEXT = {
+  id: {
+    title: "Daftar Aset",
+    desc: "Lihat daftar aset lelang kami.",
+    prov: "Pilih Provinsi",
+    regency: "Pilih Kabupaten",
+    city: "Filter Kota",
+    type: "Pilih Tipe",
+    search: "Cari Aset",
+    reset: "Reset Filter",
+    lelangDone: "Lelang Selesai",
+    lelangAt: "Lelang:",
+    lihat: "Lihat Selengkapnya",
+    noImage: "Tidak ada gambar"
+  },
+  en: {
+    title: "Asset List",
+    desc: "See our auctioned asset list.",
+    prov: "Select Province",
+    regency: "Select Regency",
+    city: "Filter City",
+    type: "Select Type",
+    search: "Search Asset",
+    reset: "Reset Filter",
+    lelangDone: "Auction Closed",
+    lelangAt: "Auction:",
+    lihat: "See Details",
+    noImage: "No Image"
+  }
+};
+
 export default function AssetManagement({ data }) {
+  // LANGSUNG AMBIL LANG DARI PARAMS
+  const { lang } = useParams();
+  const t = TEXT[lang] || TEXT.id;
+
   const { data: assets, isLoading, error } = useAssetManagement();
   const [currentPage, setCurrentPage] = useState(1);
   const [filterProvince, setFilterProvince] = useState("");
@@ -35,15 +71,15 @@ export default function AssetManagement({ data }) {
   );
 
   const typeOptions = useMemo(
-  () =>
-    [...new Set((assets || []).map((a) => a.type?.name))]
-      .filter((type) => type && type !== "null" && type !== "")
-      .map((type) => ({
-        value: type,
-        label: type,
-      })),
-  [assets]
-);
+    () =>
+      [...new Set((assets || []).map((a) => a.type?.name))]
+        .filter((type) => type && type !== "null" && type !== "")
+        .map((type) => ({
+          value: type,
+          label: type,
+        })),
+    [assets]
+  );
 
   const stateOptions = useMemo(() => {
     let filtered = assets || [];
@@ -68,30 +104,29 @@ export default function AssetManagement({ data }) {
       }));
   }, [assets, filterProvince, filterState]);
 
-const filteredAssets = useMemo(() => {
-  let result = assets || [];
-  if (filterProvince) result = result.filter((a) => a.province === filterProvince);
-  if (filterState) result = result.filter((a) => a.regency === filterState);
-  if (filterCity) result = result.filter((a) => a.region === filterCity);
-  if (filterType) result = result.filter((a) => a.type?.name === filterType);
-  if (search) {
-    const low = search.toLowerCase();
-    result = result.filter(
-      (a) =>
-        (a.asset_number && String(a.asset_number).toLowerCase().includes(low)) ||
-        (a.address && a.address.toLowerCase().includes(low)) ||
-        (a.region && a.region.toLowerCase().includes(low)) ||
-        (a.province && a.province.toLowerCase().includes(low)) ||
-        (a.regency && a.regency.toLowerCase().includes(low))
-    );
-  }
-  return result;
-}, [assets, filterProvince, filterState, filterCity, filterType, search]);
-
+  // --- filtering ---
+  const filteredAssets = useMemo(() => {
+    let result = assets || [];
+    if (filterProvince) result = result.filter((a) => a.province === filterProvince);
+    if (filterState) result = result.filter((a) => a.regency === filterState);
+    if (filterCity) result = result.filter((a) => a.region === filterCity);
+    if (filterType) result = result.filter((a) => a.type?.name === filterType);
+    if (search) {
+      const low = search.toLowerCase();
+      result = result.filter(
+        (a) =>
+          (a.asset_number && String(a.asset_number).toLowerCase().includes(low)) ||
+          (a.address && a.address.toLowerCase().includes(low)) ||
+          (a.region && a.region.toLowerCase().includes(low)) ||
+          (a.province && a.province.toLowerCase().includes(low)) ||
+          (a.regency && a.regency.toLowerCase().includes(low))
+      );
+    }
+    return result;
+  }, [assets, filterProvince, filterState, filterCity, filterType, search]);
 
   const paginatedData = useMemo(
-    () =>
-      filteredAssets.slice((currentPage - 1) * pageSize, currentPage * pageSize),
+    () => filteredAssets.slice((currentPage - 1) * pageSize, currentPage * pageSize),
     [filteredAssets, currentPage, pageSize]
   );
 
@@ -115,29 +150,28 @@ const filteredAssets = useMemo(() => {
     setCurrentPage(1);
   }
 
-function resetFilter() {
-  setFilterProvince("");
-  setFilterState("");
-  setFilterCity("");
-  setFilterType("");
-  setSearch("");
-  setCurrentPage(1);
-}
-
+  function resetFilter() {
+    setFilterProvince("");
+    setFilterState("");
+    setFilterCity("");
+    setFilterType("");
+    setSearch("");
+    setCurrentPage(1);
+  }
 
   if (isLoading) return <Spinner />;
-  if (error) return <NoData />;
+  if (error) return <p className="text-red-500">Gagal memuat data aset.</p>;
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-2">{data.title}</h1>
-      <p className="text-gray-600 mb-6">{data.description}</p>
+      <h1 className="text-3xl font-bold mb-2">{t.title}</h1>
+      <p className="text-gray-600 mb-6">{t.desc}</p>
 
       <div className="flex flex-wrap gap-3 mb-8 items-center">
         <Select
           showSearch
           allowClear
-          placeholder="Pilih Provinsi"
+          placeholder={t.prov}
           value={filterProvince || undefined}
           options={provinceOptions}
           onChange={handleProvinceChange}
@@ -146,7 +180,7 @@ function resetFilter() {
         <Select
           showSearch
           allowClear
-          placeholder="Pilih Kabupaten"
+          placeholder={t.regency}
           value={filterState || undefined}
           options={stateOptions}
           onChange={handleStateChange}
@@ -156,7 +190,7 @@ function resetFilter() {
         <Select
           showSearch
           allowClear
-          placeholder="Filter City"
+          placeholder={t.city}
           value={filterCity || undefined}
           options={cityOptions}
           onChange={handleCityChange}
@@ -166,7 +200,7 @@ function resetFilter() {
         <Select
           showSearch
           allowClear
-          placeholder="Pilih Tipe"
+          placeholder={t.type}
           value={filterType || undefined}
           options={typeOptions}
           onChange={value => {
@@ -178,13 +212,13 @@ function resetFilter() {
 
         <Input.Search
           allowClear
-          placeholder="Search Asset"
+          placeholder={t.search}
           value={search}
           onChange={handleSearchChange}
           className="min-w-[180px]"
         />
         <Button variation="secondary" onClick={resetFilter} className="h-10">
-          Reset Filter
+          {t.reset}
         </Button>
       </div>
 
@@ -209,18 +243,18 @@ function resetFilter() {
                     {item.date_implementation && (
                       <div className="absolute top-3 left-3 z-10 bg-yellow-200 text-yellow-800 rounded-full px-3 py-1 flex items-center gap-1 font-semibold text-xs shadow">
                         <span className="mr-1">📌</span>
-                        {isLelangSelesai ? "Lelang Selesai" : `Lelang: ${dayjs(item.date_implementation).format("DD MMM YYYY")}`}
+                        {isLelangSelesai ? t.lelangDone : `${t.lelangAt} ${dayjs(item.date_implementation).format("DD MMM YYYY")}`}
                       </div>
                     )}
                     {item.photos?.[0]?.image ? (
                       <Image
-                        src={`https://api.kiwi.co.id/storage/${item.photos[0].image}`}
+                        src={`http://api.kiwi.co.id/storage/${item.photos[0].image}`}
                         alt={item.asset_number}
                         fill
                         className="object-cover"
                       />
                     ) : (
-                      <div className="bg-gray-200 w-full h-full flex items-center justify-center">No Image</div>
+                      <div className="bg-gray-200 w-full h-full flex items-center justify-center">{t.noImage}</div>
                     )}
                   </div>
                   <div className="p-4 flex-1 flex flex-col justify-between gap-2">
@@ -233,13 +267,14 @@ function resetFilter() {
                       </p>
                     </div>
                     <div className="mt-4 flex">
-                      <Link href={`/services/asset-management/${item.asset_number}`} className="w-full">
+                      {/* pastikan lang di url */}
+                      <Link href={`/${lang}/services/asset-management/${item.asset_number}`} className="w-full">
                         <Button
                           className="w-full"
                           variation="primary"
                           disabled={isLelangSelesai}
                         >
-                          Lihat Selengkapnya
+                          {t.lihat}
                         </Button>
                       </Link>
                     </div>

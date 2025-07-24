@@ -5,6 +5,7 @@ import clsx from "clsx";
 export default function PeopleTabSelector() {
   const router = useRouter();
   const pathname = usePathname();
+  const lang = pathname.split("/")[1] || "id"; // AMAN karena pasti /[lang]/...
 
   const isStory = pathname.includes("/about/people/story");
   const isLeader = pathname.includes("/about/people/leader");
@@ -19,7 +20,7 @@ export default function PeopleTabSelector() {
               ? "bg-primary-100 text-primary-950 shadow"
               : "bg-gray-100 text-gray-500 hover:text-primary-700"
           )}
-          onClick={() => router.push("/about/people/story")}
+          onClick={() => router.push(`/${lang}/about/people/story`)}
         >
           Story
         </button>
@@ -30,7 +31,7 @@ export default function PeopleTabSelector() {
               ? "bg-primary-100 text-primary-950 shadow"
               : "bg-gray-100 text-gray-500 hover:text-primary-700"
           )}
-          onClick={() => router.push("/about/people/leader")}
+          onClick={() => router.push(`/${lang}/about/people/leader`)}
         >
           Leadership
         </button>

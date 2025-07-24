@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import { getService } from '@/_lib/api';
+
 import { useMemo } from 'react';
+import { getService } from '../_lib/api';
 
 
-export function useGetService(){
+export function useGetService(lang){
     const {data: rawData, isLoading, error} = 
     useQuery({
-        queryKey: ['service'],
-        queryFn: getService, 
+        queryKey: ['service', lang],
+        queryFn: () => getService(lang), 
         staleTime : 0,
         refetchOnMount: true,
     })

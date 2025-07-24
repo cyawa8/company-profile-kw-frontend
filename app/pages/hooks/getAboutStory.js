@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-import { getAboutPeopleStory} from '../_lib/api';
+import { getAboutPeopleByCategory} from '../_lib/api';
 import { useMemo } from 'react';
 
 
-export function useAboutStory(){
+export function useAboutStory(lang){
     const {data: rawData, isLoading, error} = 
     useQuery({
-        queryKey: ['aboutPeople'],
-        queryFn: getAboutPeopleStory, 
+        queryKey: ['aboutClient', lang],
+        queryFn: ()=> getAboutPeopleByCategory(lang, 'Client'),
         staleTime : 0,
         refetchOnMount: true,
     })

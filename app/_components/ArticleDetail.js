@@ -8,13 +8,26 @@ import { useArticleContent } from "../pages/hooks/useArticleContent";
 import Spinner from "./Spinner";
 import { AnimatedDiv } from "./AnimatedDiv";
 import AnimatedParagraph from "./AnimatedParagraph";
-import NoData from "./NoData";
+import { useParams } from "next/navigation";
+
+const TEXTS = {
+  id: {
+    readMore: "Baca selengkapnya →",
+    explore: "Selengkapnya"
+  },
+  en: {
+    readMore: "Read more →",
+    explore: "Let's Explore Further"
+  }
+};
 
 export default function ArticleDetail() {
   const { data, isLoading, error } = useArticleContent();
+  const { lang } = useParams();
+  const t = TEXTS[lang] || TEXTS["id"];
 
   if (isLoading) return <Spinner />;
-  if (error) return <NoData />;
+  if (error) return <p>Error: {error.message}</p>;
 
   const latest2 = data.slice(0, 2);
 
@@ -35,15 +48,15 @@ export default function ArticleDetail() {
         "
       >
         {latest2.map((content) => (
-          <AnimatedDiv delay={50}  key={content.id}
+          <AnimatedDiv delay={50} key={content.id}
               className="flex-shrink-0 w-72 bg-white shadow-md rounded-lg overflow-hidden">
               <div className="relative h-48 w-full">
                 <Image
-                  src={`https://api.kiwi.co.id/storage/${content.image}`}
+                  src={`http://api.kiwi.co.id/storage/${content.image}`}
                   alt={content.title}
                   fill
                   className="object-cover"
-                  />
+                />
               </div>
               
               <div className="p-6 flex-1 flex flex-col">
@@ -54,36 +67,35 @@ export default function ArticleDetail() {
                   {content.subtitle || content.excerpt}
                 </p>
                 <Link
-                  href={`/article/${content.id}`}
+                  href={`/${lang}/article/${content.id}`}
                   className="mt-auto inline-block text-primary-600 hover:underline font-medium"
-                  >
-                  Read more →
+                >
+                  {t.readMore}
                 </Link>
               </div>
-        </AnimatedDiv>
-
+          </AnimatedDiv>
         ))}
       </div>
 
       <AnimatedDiv delay={75} className="order-2">
-      <Link href="/article">
-        <button
-          className="
-          self-center
-          inline-flex items-center
-          text-base
-          px-4 py-2
-          bg-white text-primary-950
-          rounded-full
-          hover:bg-gray-100
-          transition
-          md:mt-0 md:self-center
-          "
+        <Link href={`/${lang}/article`}>
+          <button
+            className="
+              self-center
+              inline-flex items-center
+              text-base
+              px-4 py-2
+              bg-white text-primary-950
+              rounded-full
+              hover:bg-gray-100
+              transition
+              md:mt-0 md:self-center
+            "
           >
-          Let&apos;s Explore Further
-          <ArrowRightCircleIcon className="w-12 h-12 flex-shrink-0 gap-8 mr-2" />
-        </button>
-      </Link>
+            {t.explore}
+            <ArrowRightCircleIcon className="w-12 h-12 flex-shrink-0 gap-8 mr-2" />
+          </button>
+        </Link>
       </AnimatedDiv>
 
     </div>

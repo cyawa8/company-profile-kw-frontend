@@ -1,6 +1,6 @@
 export default async function loadHomeContent(req, res){
     try{
-        const response = await fetch('https://api.kiwi.co.id/api/home-content');
+        const response = await fetch('http://127.0.0.1:8001/api/home-content');
         const data = await response.json();
         res.status(200).json(data);
     } catch(error){

@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.kiwi.co.id/api';
+const BASE_URL = 'http://api.kiwi.co.id/api';
 
 export async function getHomeContent() {
   const res = await fetch(`${BASE_URL}/home-content`);
@@ -6,8 +6,8 @@ export async function getHomeContent() {
   return res.json();
 }
 
-export async function getAboutContent() {
-  const res = await fetch(`${BASE_URL}/about-content`);
+export async function getAboutContent(lang) {
+  const res = await fetch(`${BASE_URL}/about-content?lang=${lang}`);
   if (!res.ok) throw new Error('Error fetching data');
   return res.json();
 }
@@ -18,28 +18,35 @@ export async function getAboutAward() {
   return res.json();
 }
 
-export async function getAboutPeopleLeader() {
-  const res = await fetch(`${BASE_URL}/about-people`);
-  if (!res.ok) throw new Error('Error fetching data');
-  const data = await res.json();
+// export async function getAboutPeopleLeader(lang) {
+//   const res = await fetch(`${BASE_URL}/about-people?lang=${lang}`);
+//   if (!res.ok) throw new Error('Error fetching data');
+//   const data = await res.json();
 
-  return data.filter(item => item.category === "Leader");
-}
+//   return data.filter(item => item.category === "Leader");
+// }
 
-export async function getAboutPeopleStory() {
-  const res = await fetch(`${BASE_URL}/about-people`);
-  if (!res.ok) throw new Error('Error fetching data');
-  const data = await res.json();
+// export async function getAboutPeopleStory(lang) {
+//   const res = await fetch(`${BASE_URL}/about-people?lang=${lang}`);
+//   if (!res.ok) throw new Error('Error fetching data');
+//   const data = await res.json();
 
-  return data.filter(item => item.category === "Client");
-}
+//   return data.filter(item => item.category === "Client");
+// }
 
-export async function getAboutPeopleByName(name) {
-  const encoded = encodeURIComponent(name);
-  const res = await fetch(`${BASE_URL}/about-people/name/${encoded}`);
+export async function getAboutPeopleByCategory(lang, category) {
+  const res = await fetch(`${BASE_URL}/about-people?lang=${lang}&category=${category}`);
   if (!res.ok) throw new Error('Error fetching data');
   return res.json();
 }
+
+export async function getAboutPeopleByName(name, lang) {
+  const encoded = encodeURIComponent(name);
+  const res = await fetch(`${BASE_URL}/about-people/name/${encoded}?lang=${lang}`);
+  if (!res.ok) throw new Error('Error fetching data');
+  return res.json();
+}
+
 
 
 export async function getArticleCategory() {
@@ -54,8 +61,8 @@ export async function getArticleDetail() {
   return res.json();
 }
 
-export async function getService(){
-  const res = await fetch(`${BASE_URL}/service/`)
+export async function getService(lang){
+  const res = await fetch(`${BASE_URL}/service/?lang=${lang}`)
   if (!res.ok) throw new Error('Error fetching data');
   return res.json();
 }

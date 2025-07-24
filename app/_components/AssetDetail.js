@@ -6,7 +6,37 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useRef } from "react";
 import dayjs from "dayjs";
 
-export default function AssetDetail({ asset }) {
+const TEXT = {
+  id: {
+    lelangDone: "Lelang Selesai",
+    pelaksanaan: "Pelaksanaan",
+    tglDibuat: "Tanggal Dibuat",
+    tglLelang: "Pelaksanaan Lelang",
+    prov: "Provinsi",
+    state: "Kabupaten",
+    city: "Kota",
+    type: "Tipe",
+    land: "Luas Tanah",
+    building: "Luas Bangunan",
+    noImage: "Tidak ada gambar",
+  },
+  en: {
+    lelangDone: "Auction Closed",
+    pelaksanaan: "Implementation",
+    tglDibuat: "Created Date",
+    tglLelang: "Auction Date",
+    prov: "Province",
+    state: "Regency",
+    city: "City",
+    type: "Type",
+    land: "Land Area",
+    building: "Building Area",
+    noImage: "No Image",
+  }
+};
+
+export default function AssetDetail({ asset, lang = "id" }) {
+  const t = TEXT[lang] || TEXT.id;
   const carouselRef = useRef();
   if (!asset) return null;
 
@@ -35,11 +65,11 @@ export default function AssetDetail({ asset }) {
             </svg>
             {isPast ? (
               <>
-                Lelang Selesai
+                {t.lelangDone}
               </>
             ) : (
               <>
-                Pelaksanaan: {dateImpl ? dateImpl.format("DD MMM YYYY") : "-"}
+                {t.pelaksanaan}: {dateImpl ? dateImpl.format("DD MMM YYYY") : "-"}
               </>
             )}
           </div>
@@ -55,7 +85,7 @@ export default function AssetDetail({ asset }) {
               {asset.photos.map(img => (
                 <div key={img.id} className="relative w-full aspect-[4/3] bg-gray-100">
                   <Image
-                    src={`https://api.kiwi.co.id/storage/${img.image}`}
+                    src={`http://api.kiwi.co.id/storage/${img.image}`}
                     alt={asset.asset_number}
                     fill
                     className={`object-cover ${isPast ? "opacity-70 grayscale" : ""}`}
@@ -65,7 +95,7 @@ export default function AssetDetail({ asset }) {
             </Carousel>
           ) : (
             <div className="bg-gray-200 w-full aspect-[4/3] flex items-center justify-center rounded-xl">
-              No Image
+              {t.noImage}
             </div>
           )}
           <button
@@ -91,44 +121,44 @@ export default function AssetDetail({ asset }) {
         <div className="mb-4 text-gray-500">{asset.address}</div>
         <div className="flex flex-col gap-2 text-sm">
           <div className="flex">
-            <span className="w-32 font-semibold">Tanggal Dibuat</span>
+            <span className="w-32 font-semibold">{t.tglDibuat}</span>
             <span className="mx-2">:</span>
             <span className="flex-1">{asset.date_created ? dayjs(asset.date_created).format("DD MMM YYYY") : "-"}</span>
           </div>
           <div className="flex">
-            <span className="w-32 font-semibold">Pelaksanaan Lelang</span>
+            <span className="w-32 font-semibold">{t.tglLelang}</span>
             <span className="mx-2">:</span>
             <span className="flex-1">{asset.date_implementation ? dayjs(asset.date_implementation).format("DD MMM YYYY") : "-"}</span>
           </div>
           <div className="flex">
-            <span className="w-32 font-semibold">Province</span>
+            <span className="w-32 font-semibold">{t.prov}</span>
             <span className="mx-2">:</span>
             <span className="flex-1">{asset.province}</span>
           </div>
           <div className="flex">
-            <span className="w-32 font-semibold">State</span>
+            <span className="w-32 font-semibold">{t.state}</span>
             <span className="mx-2">:</span>
             <span className="flex-1">{asset.regency}</span>
           </div>
           <div className="flex">
-            <span className="w-32 font-semibold">City</span>
+            <span className="w-32 font-semibold">{t.city}</span>
             <span className="mx-2">:</span>
             <span className="flex-1">{asset.region}</span>
           </div>
           <div className="flex">
-            <span className="w-32 font-semibold">Type</span>
+            <span className="w-32 font-semibold">{t.type}</span>
             <span className="mx-2">:</span>
             <span className="flex-1">{asset.type?.name || "-"}</span>
           </div>
           <div className="flex">
-            <span className="w-32 font-semibold">Land Area</span>
+            <span className="w-32 font-semibold">{t.land}</span>
             <span className="mx-2">:</span>
             <span className="flex-1">{asset.land_area}</span>
           </div>
           <div className="flex">
-            <span className="w-32 font-semibold">Building Area</span>
+            <span className="w-32 font-semibold">{t.building}</span>
             <span className="mx-2">:</span>
-            <span className="flex-1">{asset.building_are}</span>
+            <span className="flex-1">{asset.building_area}</span>
           </div>
         </div>
       </div>

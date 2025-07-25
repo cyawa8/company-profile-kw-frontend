@@ -117,7 +117,7 @@ export default function Page() {
                 className="w-full h-80 sm:h-[100px] md:h-[300px] lg:h-[500px] lg:w-1/2 relative overflow-hidden rounded-lg"
               >
                 <Image
-                  src={`https://127.0.0.1:8001/storage/${content.image}`}
+                  src={`https://api.kiwi.co.id/storage/${content.image}`}
                   alt={content.title}
                   fill
                   className="object-cover object-center"

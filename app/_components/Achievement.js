@@ -58,7 +58,7 @@ if (items.length === 0) {
                 content: (
                   <div className="flex flex-col items-center gap-4">
                     <Image
-                      src={`https://127.0.0.1:8001/storage/${a.image}`}
+                      src={`https://api.kiwi.co.id/storage/${a.image}`}
                       alt={a.description || a.title || "achievement"}
                       width={160}
                       height={160}
@@ -79,7 +79,7 @@ if (items.length === 0) {
             }
         >
           <Image
-            src={`https://127.0.0.1:8001/storage/${a.image}`}
+            src={`https://api.kiwi.co.id/storage/${a.image}`}
             alt={a.description || a.name || "achievement"}
             width={96}
             height={96}

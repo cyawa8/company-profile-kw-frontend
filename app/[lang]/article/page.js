@@ -65,7 +65,7 @@ export default function Article() {
             >
             <div className="overflow-hidden w-full h-48 relative">
                 <Image
-                src={`http://api.kiwi.co.id/storage/${article.image}`}
+                src={`https://api.kiwi.co.id/storage/${article.image}`}
                 alt={article.title}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"

@@ -22,7 +22,7 @@ export default function ArticleDetailClient({ id }) {
 
         <div className="relative w-screen left-1/2 right-1/2 -mx-[50vw] h-[400px] md:h-[600px] mb-8 overflow-hidden shadow-lg">
           <Image
-            src={`http://api.kiwi.co.id/storage/${article.image}`}
+            src={`https://api.kiwi.co.id/storage/${article.image}`}
             alt={article.title}
             fill
             className="object-cover"

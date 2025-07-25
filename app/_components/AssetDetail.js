@@ -85,7 +85,7 @@ export default function AssetDetail({ asset, lang = "id" }) {
               {asset.photos.map(img => (
                 <div key={img.id} className="relative w-full aspect-[4/3] bg-gray-100">
                   <Image
-                    src={`http://api.kiwi.co.id/storage/${img.image}`}
+                    src={`https://api.kiwi.co.id/storage/${img.image}`}
                     alt={asset.asset_number}
                     fill
                     className={`object-cover ${isPast ? "opacity-70 grayscale" : ""}`}

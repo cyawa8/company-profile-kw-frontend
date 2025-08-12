@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import { useState } from "react";
 import { useContact } from "@/hooks/useContact";
@@ -9,24 +10,30 @@ import Button from "../../_components/Button";
 import Container from "../../_components/Container";
 import NoData from "../../_components/NoData";
 import { useParams } from "next/navigation";
+import Breadcrumbs from "@/app/_components/Breadcrumbs";
+import H1 from "@/app/_components/H1";
 
 const TEXT = {
   id: {
     title: "PT Kinerja Inovasi Wira Indonesia",
     kantor: "Kantor Pusat",
-    email: "Email:",
-    phone: "Telepon:",
+    email: "Email",
+    phone: "Telepon",
     btn: "Hubungi Kami",
     nodata: "Tidak ada data kontak",
+    contactUs: "Hubungi Kami",
+    description: "Kami siap membantu informasi lebih lanjut atau pertanyaan tentang layanan kami.",
   },
   en: {
     title: "PT Kinerja Inovasi Wira Indonesia",
     kantor: "Head Office",
-    email: "Email:",
-    phone: "Phone:",
+    email: "Email",
+    phone: "Phone",
     btn: "Contact Us",
     nodata: "No contact data",
-  }
+    contactUs: "Contact Us",
+    description: "We are here to help with further information or inquiries about our services.",
+  },
 };
 
 export default function ContactPage() {
@@ -48,81 +55,105 @@ export default function ContactPage() {
   return (
     <>
       <Container>
-        <div className="min-h-[70vh] flex flex-col-reverse md:flex-row items-center justify-center gap-10 py-12 relative overflow-hidden bg-white">
-          <div className="flex-1 flex flex-col items-start z-10">
-            <h1 className="text-3xl font-bold mb-2">{t.title}</h1>
-            <div className="mb-2 text-lg text-primary-700 font-semibold">
-              {t.kantor}
+        <Breadcrumbs />
+      </Container>
+      
+       <div className="relative py-12 flex justify-center items-center bg-white overflow-hidden rounded-2xl mb-10">
+           <div className="z-20 bg-white bg-opacity-100 p-6 rounded-lg shadow-lg max-w-xs md:max-w-sm ">
+            <H1 className="flex text-3xl text-primary-950 font-bold mb-2 justify-center">{t.contactUs}</H1>
+            <p className="text-gray-600 text-lg">{t.description}</p>
+            
+            <div className="flex justify-center">
+              <Button size="large" onClick={() => setModalOpen(true)}>
+                {t.btn}
+              </Button>
             </div>
-            <p className="text-gray-600 mb-4 leading-relaxed whitespace-pre-line">
-              {contact.address}
+          </div>
+
+          <div className="absolute inset-0 z-10 rounded-2xl overflow-hidden opacity-30 sm:relative sm:opacity-100 sm:z-10 sm:h-auto sm:w-auto scale-110 sm:scale-100 translate-x-20">
+            <Image
+              src="/contact.png"
+              alt="Contact"
+              width={480}
+              height={480}
+              className="object-cover"
+              priority
+            />
+          </div>
+        </div>
+
+      <Container>
+        <div className="grid gap-8 md:grid-cols-2 items-stretch">
+          <div className="bg-white rounded-lg shadow-md p-6 flex flex-col h-full">
+            <h3 className="text-xl font-semibold mb-4">{t.phone} {t.kantor}</h3>
+            <p className="text-gray-700">
+              {lang === "id"
+                ? "Hubungi pusat layanan kami untuk solusi cepat. Jam operasional Senin - Minggu, 09.00 - 22.00 WIB."
+                : "Contact our service center for fast resolution services. Operating hours Monday to Sunday from 09.00 – 22.00 WIB."}
             </p>
-            <div className="mb-2 text-gray-800">
-              <span className="block font-medium">{t.email}</span>
-              <span className="font-medium">
-                {Array.isArray(contact.emails)
-                  ? contact.emails.filter(Boolean).map((email, idx) => (
+            <div className="mt-auto" />
+            <div className="flex flex-wrap gap-3">
+              {Array.isArray(contact.phones)
+                ? contact.phones.filter(Boolean).map((phone) => (
+                    <Button key={phone}>
                       <Link
-                        href={`mailto:${email}`}
-                        key={email}
-                        className="text-primary-700 hover:text-primary-900"
-                      >
-                        {email}
-                        {idx < contact.emails.length - 1 && ", "}
-                      </Link>
-                    ))
-                  : (
-                    <Link
-                      href={`mailto:${contact.emails}`}
-                      className="ml-2 underline text-primary-700 hover:text-primary-900"
-                    >
-                      {contact.emails}
-                    </Link>
-                  )}
-              </span>
-            </div>
-            <div className="mb-6 text-gray-800">
-              <span className="block font-medium">{t.phone}</span>
-              <span className="font-medium">
-                {Array.isArray(contact.phones)
-                  ? contact.phones.filter(Boolean).map((phone, idx) => (
-                      <a
-                        key={phone}
                         href={makeWhatsappLink(phone)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-primary-700 hover:text-primary-900"
                       >
                         {phone}
-                        {idx < contact.phones.length - 1 && ", "}
-                      </a>
-                    ))
-                  : (
-                    <a
+                      </Link>
+                    </Button>
+                  ))
+                : (
+                  <Button>
+                    <Link
                       href={makeWhatsappLink(contact.phones)}
-                      className="ml-2 underline text-primary-700"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       {contact.phones}
-                    </a>
-                  )}
-              </span>
+                    </Link>
+                  </Button>
+                )}
             </div>
-            <Button
-              size="large"
-              onClick={() => setModalOpen(true)}
-            >
-              {t.btn}
-            </Button>
           </div>
-          <div className="flex-1 relative flex justify-center items-center w-full">
-            <div className="absolute right-12 top-1/2 -translate-y-1/2 w-[340px] h-[340px] md:w-[420px] md:h-[420px] rounded-full bg-primary-50 z-0"></div>
-            <Image
-              src="/contact.png"
-              alt="Our Office"
-              width={400}
-              height={400}
-              className="rounded-2xl object-cover relative z-10"
-            />
+          <div className="bg-white rounded-lg shadow-md p-6 flex flex-col h-full">
+            <h3 className="text-xl font-semibold mb-4">{t.email} {t.kantor}</h3>
+
+            <p className="text-gray-700">
+              {lang === "id"
+                ? "Atau anda juga bisa mengirimkan kita email terkait masukan atau masalah yang sedang anda alami. Kami akan meresponi email sesegera mungkin"
+                : "Or you can also send us an email with your feedback or any issues you're experiencing. We'll respond to your email as soon as possible."}
+            </p>
+
+            <div className="mt-auto" />
+
+            <div className="flex flex-wrap gap-3">
+              {Array.isArray(contact.emails)
+                ? contact.emails.filter(Boolean).map((email) => (
+                    <Button key={email}>
+                      <Link
+                        href={`mailto:${email}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {email}
+                      </Link>
+                    </Button>
+                  ))
+                : (
+                  <Button>
+                    <Link
+                      href={`mailto:${contact.emails}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {contact.emails}
+                    </Link>
+                  </Button>
+                )}
+            </div>
           </div>
         </div>
       </Container>

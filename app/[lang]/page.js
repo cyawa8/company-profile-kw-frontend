@@ -14,6 +14,7 @@ import { AnimatedDiv } from "../_components/AnimatedDiv";
 import { useHomeContent } from "@/hooks/useHomeContent";
 import Loading from "../loading";
 import { useParams } from "next/navigation";
+import NoData from "../_components/NoData";
 
 
 function isValidUrl(url) {
@@ -26,7 +27,7 @@ export default function Page() {
   const { data, isLoading, error } = useHomeContent(lang);
 
   if (isLoading) return <Loading />;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <NoData />;
 
   return (
     <>
@@ -63,7 +64,6 @@ export default function Page() {
               key={content.id}
               className={`flex flex-col-reverse ${rowClass} items-start lg:items-center gap-6 lg:gap-16`}
             >
-              
               <div className="flex-1 flex flex-col justify-center lg:pl-12 space-y-4">
                 <AnimatedParagraph delay={0}>
                   <H1 className="sm:text-3xl lg:text-5xl font-bold text-primary-950">
@@ -89,7 +89,7 @@ export default function Page() {
                     <button
                       disabled
                       className="px-5 py-2 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed"
-                      title="URL tidak valid, cek kembali di portal admin"
+                      title={lang === "id" ? "URL Salah" : "URL Not Found"}
                     >
                       {content.action_label}
                     </button>
@@ -103,7 +103,7 @@ export default function Page() {
                       }}
                       className="flex items-center justify-center gap-2 px-5 py-2 bg-primary-0 text-primary-950 rounded-lg hover:text-primary-600 transition"
                     >
-                      Let&apos;s Explore Further <ArrowDownCircleIcon className="w-12 h-12" />
+                      {lang === "id" ? "Mari Jelajahi Lebih Lanjut" : "Let's Explore Further"} <ArrowDownCircleIcon className="w-12 h-12" />
                     </button>
                   ) : null
                 )}

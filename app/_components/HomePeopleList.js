@@ -3,11 +3,13 @@
 import { useState } from "react";
 import PeopleCard from "./CardPeople";
 import Spinner from "./Spinner";
-import { useAboutPeople } from "../pages/hooks/useAboutPeople";
 import NoData from "./NoData";
+import { useParams } from "next/navigation";
+import { useAboutStory } from "../pages/hooks/getAboutStory";
 
 export default function PeopleList() {
-  const { data, isLoading, error } = useAboutPeople();
+  const {lang} = useParams();
+  const { data, isLoading, error } = useAboutStory(lang);
   const [current, setCurrent] = useState(0);
 
   if (isLoading) return <Spinner />;

@@ -8,9 +8,9 @@ export default function Button({children, size='medium', variation='primary', di
   };
 
   const variationClasses = {
-    primary: "text-primary-0 bg-primary-950 hover:bg-primary-800",
-    secondary: "text-primary-950 bg-white border border hover:border-primary-950",
-    danger: "text-red-100 bg-red-700 hover:bg-red-800",
+    primary: "text-primary-0 bg-primary-950 hover:bg-primary-800 gap-3",
+    secondary: "text-primary-950 bg-white border border hover:border-primary-950 gap-3",
+    danger: "text-red-100 bg-red-700 hover:bg-red-800 gap-3",
   };
 
   const baseClasses = "font-black border mt-6 rounded-xl shadow-sm transition-all disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed";

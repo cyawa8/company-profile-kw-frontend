@@ -5,6 +5,7 @@ import Button from "./Button";
 import AnimatedParagraph from "./AnimatedParagraph";
 import { AnimatedDiv } from "./AnimatedDiv";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 
 const TEXTS = {
   id: {
@@ -25,7 +26,7 @@ const TEXTS = {
 
 export default function HomeApproach() {
   const { lang } = useParams();
-  const t = TEXTS[lang] || TEXTS["id"]; // fallback ke id jika lang tidak dikenali
+  const t = TEXTS[lang] || TEXTS["id"];
 
   return (
     <section className="w-full py-12 px-4 md:px-0">
@@ -52,7 +53,11 @@ export default function HomeApproach() {
             </span>
           </AnimatedParagraph>
           <AnimatedParagraph delay={150}>
-            <Button>{t.btn}</Button>
+            <Button>
+              <Link href={`/${lang}/about`}>
+                {t.btn}
+              </Link>
+            </Button>
           </AnimatedParagraph>
         </div>
       </div>

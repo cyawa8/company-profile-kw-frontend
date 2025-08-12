@@ -45,7 +45,6 @@ const TEXT = {
 };
 
 export default function AssetManagement({ data }) {
-  // LANGSUNG AMBIL LANG DARI PARAMS
   const { lang } = useParams();
   const t = TEXT[lang] || TEXT.id;
 
@@ -104,7 +103,6 @@ export default function AssetManagement({ data }) {
       }));
   }, [assets, filterProvince, filterState]);
 
-  // --- filtering ---
   const filteredAssets = useMemo(() => {
     let result = assets || [];
     if (filterProvince) result = result.filter((a) => a.province === filterProvince);
@@ -125,9 +123,22 @@ export default function AssetManagement({ data }) {
     return result;
   }, [assets, filterProvince, filterState, filterCity, filterType, search]);
 
+  const sortedAssets = useMemo(() => {
+    if (!filteredAssets) return [];
+
+    return [...filteredAssets].sort((a, b) => {
+      const aDone = a.date_implementation && dayjs(a.date_implementation).isBefore(dayjs(), "day");
+      const bDone = b.date_implementation && dayjs(b.date_implementation).isBefore(dayjs(), "day");
+
+      if (aDone === bDone) return 0;
+      if (aDone) return 1;
+      return -1;
+    });
+  }, [filteredAssets]);
+
   const paginatedData = useMemo(
-    () => filteredAssets.slice((currentPage - 1) * pageSize, currentPage * pageSize),
-    [filteredAssets, currentPage, pageSize]
+    () => sortedAssets.slice((currentPage - 1) * pageSize, currentPage * pageSize),
+    [sortedAssets, currentPage, pageSize]
   );
 
   function handleProvinceChange(value) {

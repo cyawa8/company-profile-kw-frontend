@@ -32,7 +32,9 @@ export default function SectionHeader() {
 
   return (
     <div className="flex flex-col gap-2 mb-8">
-      <span className="font-bold text-base">{t.team}</span>
+      <AnimatedParagraph delay={0}>
+        <span className="font-bold text-base">{t.team}</span>
+      </AnimatedParagraph>
 
       <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-2">
         <AnimatedParagraph delay={0}>

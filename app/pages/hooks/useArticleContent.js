@@ -3,11 +3,11 @@ import { getArticleDetail } from '../_lib/api';
 import { useMemo } from 'react';
 
 
-export function useArticleContent(){
+export function useArticleContent(lang){
     const {data: rawData, isLoading, error} = 
     useQuery({
-        queryKey: ['articleContent'],
-        queryFn: getArticleDetail, 
+        queryKey: ['articleContent', lang],
+        queryFn:()=>getArticleDetail(lang), 
         staleTime : 0,
         refetchOnMount: true,
     })

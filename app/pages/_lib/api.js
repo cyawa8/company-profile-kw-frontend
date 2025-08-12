@@ -55,8 +55,22 @@ export async function getArticleCategory() {
   return res.json();
 }
 
-export async function getArticleDetail() {
-  const res = await fetch(`${BASE_URL}/article-detail`);
+export async function getArticles() {
+  const res = await fetch(`${BASE_URL}/articles`, {
+    headers: { Accept: 'application/json' },
+  });
+  if (!res.ok) throw new Error('Error fetching articles');
+  return res.json();
+}
+
+export async function getArticleDetail(lang) {
+  const res = await fetch(`${BASE_URL}/article-detail?lang=${lang}`);
+  if (!res.ok) throw new Error('Error fetching data');
+  return res.json();
+}
+
+export async function getArticleDetailByGroupId(id, lang) {
+  const res = await fetch(`${BASE_URL}/article-detail/group/${id}?lang=${lang}`);
   if (!res.ok) throw new Error('Error fetching data');
   return res.json();
 }
@@ -81,8 +95,8 @@ export async function getServiceSlug(slug) {
   return await res.json();
 }
 
-export async function getArticleDetailById(id) {
-  const res = await fetch(`${BASE_URL}/article-detail/${id}`);
+export async function getArticleDetailById(id, lang) {
+  const res = await fetch(`${BASE_URL}/article-detail/${id}?lang=${lang}`);
   if (!res.ok) throw new Error('Error fetching data');
   return res.json();
 }

@@ -1,14 +1,14 @@
 "use client"
 
 import { ArrowRightCircleIcon } from "@heroicons/react/24/solid";
-import H1 from "./H1";
 import Link from "next/link";
 import Image from "next/image";
-import { useArticleContent } from "../pages/hooks/useArticleContent";
 import Spinner from "./Spinner";
 import { AnimatedDiv } from "./AnimatedDiv";
 import AnimatedParagraph from "./AnimatedParagraph";
 import { useParams } from "next/navigation";
+import { getArticles } from "../pages/_lib/api";
+import { useQuery } from "@tanstack/react-query";
 
 const TEXTS = {
   id: {
@@ -22,14 +22,29 @@ const TEXTS = {
 };
 
 export default function ArticleDetail() {
-  const { data, isLoading, error } = useArticleContent();
   const { lang } = useParams();
   const t = TEXTS[lang] || TEXTS["id"];
+
+  const { data, isLoading, error } = useQuery({
+      queryKey: ["articles"],
+      queryFn: () => getArticles(),
+      keepPreviousData: true,
+  });
 
   if (isLoading) return <Spinner />;
   if (error) return <p>Error: {error.message}</p>;
 
-  const latest2 = data.slice(0, 2);
+  const articles = data?.data;
+
+  const latest2 = articles.slice(0, 2).map(article => {
+  const content = article.details.find(d => d.lang === lang) || {};
+
+  return {
+    ...article,
+    content
+  };
+});
+
 
   return (
    <div
@@ -47,13 +62,13 @@ export default function ArticleDetail() {
           md:overflow-visible md:flex-none md:col-span-2
         "
       >
-        {latest2.map((content) => (
-          <AnimatedDiv delay={50} key={content.id}
+        {latest2.map(({ id, content }) => (
+          <AnimatedDiv delay={50} key={id}
               className="flex-shrink-0 w-72 bg-white shadow-md rounded-lg overflow-hidden">
               <div className="relative h-48 w-full">
                 <Image
                   src={`https://api.kiwi.co.id/storage/${content.image}`}
-                  alt={content.title}
+                  alt={content.title || "Image description"}
                   fill
                   className="object-cover"
                 />
@@ -67,11 +82,13 @@ export default function ArticleDetail() {
                   {content.subtitle || content.excerpt}
                 </p>
                 <Link
-                  href={`/${lang}/article/${content.id}`}
+                  href={`/${lang}/article/${content.translation_group_id}`}
                   className="mt-auto inline-block text-primary-600 hover:underline font-medium"
                 >
                   {t.readMore}
                 </Link>
+
+
               </div>
           </AnimatedDiv>
         ))}

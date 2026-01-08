@@ -35,7 +35,7 @@ export default function AboutJourney() {
               <div className="w-full lg:w-1/2 pl-8 mt-6 lg:mt-0">
                 <div className="relative w-full h-64 rounded-lg overflow-hidden">
                   <Image
-                    src={`https://api.kiwi.co.id/storage/${item.image}`}
+                    src={`http://localhost:8001/storage/${item.image}`}
                     alt={item.title}
                     fill
                     className="object-cover"
@@ -65,7 +65,7 @@ export default function AboutJourney() {
                   </div>
                   <div className="w-full h-44 mt-2 rounded-tr-2xl rounded-tl-none rounded-b-2xl overflow-hidden relative">
                     <Image
-                      src={`https://api.kiwi.co.id/storage/${item.image}`}
+                      src={`http://localhost:8001/storage/${item.image}`}
                       alt={item.title}
                       fill
                       className="object-cover"

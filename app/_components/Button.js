@@ -1,6 +1,7 @@
 import classNames from "classnames";
+import { useRouter } from "next/navigation";
 
-export default function Button({children, size='medium', variation='primary', disabled=false, onClick, type='button'}){
+export default function Button({children, size='medium', variation='primary', disabled=false, onClick, type='button', href}){
     const sizeClasses = {
     small: "text-sm px-3 py-1 font-bold uppercase",
     medium: "text-base px-5 py-2 font-bold",
@@ -13,17 +14,29 @@ export default function Button({children, size='medium', variation='primary', di
     danger: "text-red-100 bg-red-700 hover:bg-red-800 gap-3",
   };
 
+  const router = useRouter();
+
   const baseClasses = "font-black border mt-6 rounded-xl shadow-sm transition-all disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed";
+  const handleClick = (e) => {
+    if (disabled) return;
+    if (href) {
+      router.push(href);
+    } else if (onClick) {
+      onClick(e);
+    }
+  };
+  
   return (
     <button
       type={type}
       disabled={disabled}
-      onClick={onClick}
+      onClick={handleClick}
       className={classNames(
         baseClasses,
         sizeClasses[size],
         variationClasses[variation]
       )}
+      href = {href}
     >
       {children}
     </button>

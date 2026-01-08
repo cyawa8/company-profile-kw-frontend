@@ -29,7 +29,7 @@ export default function HomeApproach() {
   const t = TEXTS[lang] || TEXTS["id"];
 
   return (
-    <section className="w-full py-12 px-4 md:px-0">
+    <section className="w-full py-6 px-4 md:px-0">
       <div className="flex flex-col md:flex-row items-center max-w-5xl mx-auto gap-8 md:gap-0">
         <AnimatedDiv delay={100} className="w-full md:w-1/2 h-[220px] md:h-[500px] relative">
           <Image

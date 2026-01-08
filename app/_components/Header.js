@@ -17,10 +17,8 @@ export default function Header() {
         return;
       }
       if (y > lastScroll.current && y > 100) {
-        // Scroll down, hide header
         setShow(false);
       } else if (y < lastScroll.current) {
-        // Scroll up, show header
         setShow(true);
       }
       lastScroll.current = y;

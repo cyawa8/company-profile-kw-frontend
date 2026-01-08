@@ -9,7 +9,6 @@ import { ReactQueryProviders } from "./provider";
 import { ModalProvider } from "./_components/Modal";
 import { Toaster } from "react-hot-toast";
 import Footer from "./_components/Footer";
-import Navigation from "./_components/Navigation";
 
 const quicksand = Quicksand({
   subsets : ["latin"],

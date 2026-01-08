@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.kiwi.co.id/api';
+const BASE_URL = 'http://localhost:8001/api';
 
 export async function getHomeContent(lang = "id") {
   const res = await fetch(`${BASE_URL}/home-content?lang=${lang}`, {
@@ -81,3 +81,41 @@ export async function createArticleCategory(formData) {
     }
   return res.json();
 }
+
+export async function getServicesClient() {
+  const res = await fetch(`${BASE_URL}/servicesclient`);
+  if (!res.ok) throw new Error("Failed to fetch services");
+  return res.json();
+}
+
+export async function createApplicant(data) {
+  const res = await fetch(`${BASE_URL}/applications`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message || "Failed to submit application");
+  return result;
+}
+
+export async function checkBill(billNumber) {
+  const res = await fetch(
+    `${BASE_URL}/bills/${billNumber}`,
+    {
+      headers: { Accept: "application/json" },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Tagihan tidak ditemukan");
+  }
+
+  return res.json();
+}
+
+

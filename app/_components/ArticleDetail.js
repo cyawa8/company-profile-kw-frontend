@@ -67,7 +67,7 @@ export default function ArticleDetail() {
               className="flex-shrink-0 w-72 bg-white shadow-md rounded-lg overflow-hidden">
               <div className="relative h-48 w-full">
                 <Image
-                  src={`https://api.kiwi.co.id/storage/${content.image}`}
+                  src={`http://localhost:8001/storage/${content.image}`}
                   alt={content.title || "Image description"}
                   fill
                   className="object-cover"

@@ -16,7 +16,7 @@ export default function AssetDetailPage() {
 
   useEffect(() => {
     if (slug === "asset-management") {
-      fetch(`https://api.kiwi.co.id/api/${slug}/${id}?lang=${lang}`)
+      fetch(`http://localhost:8001/api/${slug}/${id}?lang=${lang}`)
         .then(res => res.json())
         .then(data => {
           setAsset(data);

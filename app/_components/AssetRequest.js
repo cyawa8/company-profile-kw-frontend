@@ -45,7 +45,7 @@ export default function AssetRequestForm({ asset, lang = "id" }) {
     e.preventDefault();
     setLoading(true);
 
-    const res = await fetch("https://api.kiwi.co.id/api/asset-requests", {
+    const res = await fetch("http://localhost:8001/api/asset-requests", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
